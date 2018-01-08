@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-3 form-group">
+        <label for="exampleInputPassword1">Avatar</label>
+        <ba-picture-uploader [picture]="profile.picture" [defaultPicture]="defaultPicture" [uploaderOptions]="uploaderOptions" (onUploadCompleted)="onUploadCompleted($event)">
+        </ba-picture-uploader>
+    </div>
+    <div class="col-md-9">
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="p-t-15">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" [formControl]="username" readonly class="form-control border-radius-non" placeholder="Username">
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-error': (!fullName.valid && fullName.touched), 'has-success': (fullName.valid && fullName.touched)}">
+                <label>Full Name</label>
+                <input type="text" [formControl]="fullName" class="form-control border-radius-non" placeholder="Full Name">
+                <label class="error m-t-10" *ngIf="(!fullName.valid && fullName.touched)">Full name is required</label>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}">
+                <label>Email</label>
+                <input type="email" [formControl]="email" class="form-control border-radius-non" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                    placeholder="Email">
+                <label class="error m-t-10" *ngIf="(!email.valid && email.touched)">Email is required</label>
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="text" [formControl]="phoneNumber" class="form-control border-radius-non" placeholder="Phone">
+            </div>
+            <button class="btn btn-success btn-with-icon btn-sm" type="button" (click)="showModalChangPassword()">
+                <i class="fa fa-key"></i>Change Password</button>
+            <button class="btn btn-primary btn-with-icon btn-sm" type="submit" [disabled]="!form.valid || submitted">
+                <i class="fa fa-floppy-o"></i>Save</button>
+        </form>
+    </div>
+</div>
