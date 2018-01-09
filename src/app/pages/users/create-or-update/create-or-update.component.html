@@ -8,8 +8,8 @@
 
     <form [formGroup]="frm" (ngSubmit)="onSubmit()">
         <div class="modal-body">
-            <ngb-tabset #mytab>
-                <ngb-tab id="user-tab-1">
+            <ngb-tabset #mytab id="ngbTabset">
+                <ngb-tab id="infoTab">
                     <ng-template ngbTabTitle>Information</ng-template>
                     <ng-template ngbTabContent>
                         <div class="row form-group">
@@ -27,12 +27,12 @@
                                 <label class="nowrap">First Name</label>
                             </div>
                             <div class="col-sm-9">
-                                <input class="form-control" type="text" formControlName="firstName" placeholder="First Name">
-                                <p class="form-error-message p-b-16">
+                                <input class="form-control border-radius-non" type="text" formControlName="firstName" placeholder="First Name">
+                                <label class="error m-t-10">
                                     <span *ngIf="firstName.invalid && (firstName.dirty || firstName.touched) && firstName.errors?.required">
                                         {{'error.firstname_required' | translate}}
                                     </span>
-                                </p>
+                                </label>
                             </div>
                         </div>
 
@@ -41,12 +41,12 @@
                                 <label class="nowrap">Last Name</label>
                             </div>
                             <div class="col-sm-9">
-                                <input class="form-control" type="text" formControlName="lastName" placeholder="Last Name">
-                                <p class="form-error-message p-b-16">
+                                <input class="form-control border-radius-non" type="text" formControlName="lastName" placeholder="Last Name">
+                                <label class="error m-t-10">
                                     <span *ngIf="lastName.invalid && (lastName.dirty || lastName.touched) && lastName.errors?.required">
                                         {{'error.lastname_required' | translate}}
                                     </span>
-                                </p>
+                                </label>
                             </div>
                         </div>
 
@@ -55,49 +55,23 @@
                                 <label>Email</label>
                             </div>
                             <div class="col-sm-9">
-                                <input [formControl]="email" type="email" class="form-control" placeholder="Email">
-                                <p class="form-error-message p-b-16">
+                                <input [formControl]="email" type="email" class="form-control border-radius-non" placeholder="Email">
+                                <label class="error m-t-10">
                                     <span *ngIf="email.invalid && (email.dirty || email.touched)">
                                         <span *ngIf="email.errors?.required">
-                                            {{'error.name_required' | translate}}
+                                            {{'error.email_required' | translate}}
                                         </span>
                                         <span *ngIf="email.errors?.pattern">
                                             {{'error.email_invalid' | translate}}
                                         </span>
                                     </span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div *ngIf="isSystemAdmin && !isShowGroup" class="row form-group m-b-0 required" [ngClass]="{'has-error': frm.get('groupId').invalid && (frm.get('groupId').dirty || frm.get('groupId').touched)}">
-                            <div class="col-sm-3">
-                                <label class="nowrap">Group</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <select class="form-control" formControlName="groupId">
-                                    <option value="">-- Select Group --</option>
-                                    <option *ngFor="let c of groups" [value]="c.id">{{c.name}}</option>
-                                </select>
-                                <p class="form-error-message p-b-16">
-                                    <span *ngIf="frm.get('groupId').invalid && (frm.get('groupId').dirty || frm.get('groupId').touched) && frm.get('groupId').errors?.required">
-                                        {{'error.group_required' | translate}}
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div *ngIf="isSystemAdmin && isShowGroup" class="row form-group m-b-0">
-                            <div class="col-sm-3">
-                                <label class="nowrap">Group</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" formControlName="groupName" disabled="disabled">
+                                </label>
                             </div>
                         </div>
                     </ng-template>
                 </ngb-tab>
 
-                <ngb-tab id="user-tab-2">
+                <ngb-tab id="passwordTab">
                     <ng-template ngbTabTitle>Password</ng-template>
                     <ng-template ngbTabContent>
                         <div class="row form-group" [ngClass]="{'m-b-0 required': !user?.id , 'has-error': frm.get('password').invalid && (frm.get('password').dirty || frm.get('password').touched)}">
@@ -105,12 +79,12 @@
                                 <label>Password</label>
                             </div>
                             <div class="col-sm-9">
-                                <input class="form-control" type="password" formControlName="password" placeholder="Password" autocomplete="off">
-                                <p class="form-error-message p-b-16">
+                                <input class="form-control border-radius-non" type="password" formControlName="password" placeholder="Password" autocomplete="off">
+                                <label class="error m-t-10">
                                     <span *ngIf="frm.get('password').invalid && (frm.get('password').dirty || frm.get('password').touched) && frm.get('password').errors?.required">
                                         {{'error.password_required' | translate}}
                                     </span>
-                                </p>
+                                </label>
                             </div>
                         </div>
 
@@ -119,19 +93,18 @@
                                 <label>Confirm Password</label>
                             </div>
                             <div class="col-sm-9">
-                                <input class="form-control" type="password" formControlName="confirmPassword" placeholder="Confirm Password" autocomplete="off">
-                                <p class="form-error-message p-b-16">
-                                    <span *ngIf="(confirmPassword.dirty || confirmPassword.touched || frm.get('password').touched) &&
-                                  confirmPassword.invalid && confirmPassword.errors?.notMatch">
+                                <input class="form-control border-radius-non" type="password" formControlName="confirmPassword" placeholder="Confirm Password" autocomplete="off">
+                                <label class="error m-t-10">
+                                    <span *ngIf="(confirmPassword.dirty || confirmPassword.touched || frm.get('confirmPassword').touched) && frm.errors?.passwordsEqual">
                                         {{'error.confirm_password_not_macth' | translate}}
                                     </span>
-                                </p>
+                                </label>
                             </div>
                         </div>
                     </ng-template>
                 </ngb-tab>
 
-                <ngb-tab id="user-tab-3">
+                <ngb-tab id="roleTab">
                     <ng-template ngbTabTitle>Farms</ng-template>
                     <ng-template ngbTabContent>
                         <div class="row form-group">
@@ -151,7 +124,7 @@
 
         <div class="modal-footer text-right">
             <button type="button" class="btn btn-cancel" (click)="closeModal()">Cancel</button>
-            <button class="btn btn-nois m-r-5" type="submit">Save</button>
+            <button class="btn btn-info m-r-5" type="submit">Save</button>
         </div>
     </form>
 </div>

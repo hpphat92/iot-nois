@@ -45,7 +45,7 @@ export class CreateOrUpdateUserComponent implements OnInit {
         containerClasses: 'btn-block',
         itemClasses: 'md-12',
         dynamicTitleMaxItems: 3,
-        displayAllSelectedText: true
+        displayAllSelectedText: true,
     };
 
     // Text configuration
