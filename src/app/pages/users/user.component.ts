@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
-import { CommonService, UserService, Util, FarmService } from '../../services/index';
+import { UserService, Util, FarmService } from '../../services/index';
 import { CreateOrUpdateUserComponent } from "./create-or-update/create-or-update.component";
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog';
 
