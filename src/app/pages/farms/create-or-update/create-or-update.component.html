@@ -1,0 +1,64 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title"> {{title}}</h4>
+        <button class="close" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <form [formGroup]="frm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+            <ngb-tabset #mytab id="ngbTabset">
+                <ngb-tab id="infoTab">
+                    <ng-template ngbTabTitle>Information</ng-template>
+                    <ng-template ngbTabContent>
+                        <div class="row form-group m-b-0 required" [ngClass]="{'has-error': name.invalid && (name.dirty || name.touched)}">
+                            <div class="col-sm-3">
+                                <label class="nowrap">Name</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control border-radius-non" type="text" formControlName="name" placeholder="Name">
+                                <label class="error m-t-10">
+                                    <span *ngIf="name.invalid && (name.dirty || name.touched) && name.errors?.required">
+                                        {{'error.name_required' | translate}}
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+
+                <ngb-tab id="usersTab">
+                    <ng-template ngbTabTitle>Users</ng-template>
+                    <ng-template ngbTabContent>
+                        <div class="row form-group">
+                            <div class="col-sm-3">
+                                <label>Farms</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <ss-multiselect-dropdown [ngModelOptions]="{standalone: true}" [options]="users" [texts]="myTexts" [settings]="mySettings"
+                                    [(ngModel)]="selectedUsers"></ss-multiselect-dropdown>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+
+                <ngb-tab *ngIf="farm && farm.id" id="areasTab">
+                    <ng-template ngbTabTitle>Areas</ng-template>
+                    <ng-template ngbTabContent>
+                        <div class="row form-group">
+                            <div class="col-sm-3">
+                                <label>Password</label>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
+
+        <div class="modal-footer text-right">
+            <button type="button" class="btn btn-cancel" (click)="closeModal()">Cancel</button>
+            <button class="btn btn-info m-r-5" type="submit">Save</button>
+        </div>
+    </form>
+</div>

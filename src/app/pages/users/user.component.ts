@@ -20,7 +20,7 @@ export class User {
     private _farmService: FarmService, private _translate: TranslateService,
     private _modalService: NgbModal) {
     this.data = { total: 0, users: [] };
-    this.pagingInfo = { pageIndex: 1, pageSize: 2 };
+    this.pagingInfo = { pageIndex: 1, pageSize: 10 };
   }
 
   public ngOnInit(): void {
@@ -49,7 +49,7 @@ export class User {
   }
 
   /**
-   * Show model add user
+   * Show modal add user
    */
   public showModalAddUser() {
     this._farmService.getAll().subscribe(farmResp => {

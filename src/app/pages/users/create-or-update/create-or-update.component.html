@@ -9,7 +9,7 @@
     <form [formGroup]="frm" (ngSubmit)="onSubmit()">
         <div class="modal-body">
             <ngb-tabset #mytab id="ngbTabset">
-                <ngb-tab id="infoTab">
+                <ngb-tab id="user-tab-1">
                     <ng-template ngbTabTitle>Information</ng-template>
                     <ng-template ngbTabContent>
                         <div class="row form-group">
@@ -71,7 +71,7 @@
                     </ng-template>
                 </ngb-tab>
 
-                <ngb-tab id="passwordTab">
+                <ngb-tab id="user-tab-2">
                     <ng-template ngbTabTitle>Password</ng-template>
                     <ng-template ngbTabContent>
                         <div class="row form-group" [ngClass]="{'m-b-0 required': !user?.id , 'has-error': frm.get('password').invalid && (frm.get('password').dirty || frm.get('password').touched)}">
@@ -104,7 +104,7 @@
                     </ng-template>
                 </ngb-tab>
 
-                <ngb-tab id="roleTab">
+                <ngb-tab id="user-tab-3">
                     <ng-template ngbTabTitle>Farms</ng-template>
                     <ng-template ngbTabContent>
                         <div class="row form-group">

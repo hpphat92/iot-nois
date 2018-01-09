@@ -24,6 +24,15 @@ import { BaseService } from "./base.service";
             .catch(this.handleError);
     }
 
+    /**
+     * Get all user for dropdown list
+     */
+    public getAll(): Observable<any> {
+        return this.http.get(`${this.path}/all`)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
     // /**
     //  * get list user
     //  * @param keySearch 
