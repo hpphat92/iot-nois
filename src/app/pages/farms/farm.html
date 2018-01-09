@@ -4,7 +4,6 @@
     </button>
 </div>
 
-
 <div *ngIf="!data?.farms?.length" class="col-md-12 row" align="center" class="center">
     <h1>No data</h1>
 </div>
@@ -45,7 +44,7 @@
     </table>
 </div>
 
-<div class="pull-right">
+<div *ngIf="data?.farms?.length" class="pull-right">
     <div class="row col-md-12 m-t-20 m-r-15">
         <ngb-pagination [collectionSize]="data.total" [(page)]="pagingInfo.pageIndex" [pageSize]="pagingInfo.pageSize" [rotate]="true"
             [ellipses]="false" [boundaryLinks]="true" (pageChange)="refreshData()"></ngb-pagination>

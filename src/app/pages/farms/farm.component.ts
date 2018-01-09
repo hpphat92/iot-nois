@@ -64,7 +64,7 @@ export class Farm {
   }
 
   /**
-   * Show modal edit user
+   * Show modal edit farm
    * @param id 
    */
   public showModalEditFarm(id: string): void {

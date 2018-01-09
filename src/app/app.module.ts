@@ -17,10 +17,7 @@ import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { CoreModule } from './core/core.module';
-import {
-  AuthGuard, AuthService, CommonService, UserService,
-  ShopService, ProfileService, PostService, Util, FarmService
-} from './services/index';
+import { AuthGuard, AuthService, UserService, ProfileService, Util, FarmService, AreaService } from './services/index';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -28,13 +25,11 @@ const APP_PROVIDERS = [
   GlobalState,
   AuthGuard,
   AuthService,
-  ShopService,
   ProfileService,
   UserService,
-  PostService,
-  CommonService,
   Util,
-  FarmService
+  FarmService,
+  AreaService
 ];
 
 export type StoreType = {

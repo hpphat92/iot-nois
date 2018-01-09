@@ -44,7 +44,7 @@
     </table>
 </div>
 
-<div class="pull-right">
+<div *ngIf="data?.users?.length" class="pull-right">
     <div class="row col-md-12 m-t-20 m-r-15">
         <ngb-pagination [collectionSize]="data.total" [(page)]="pagingInfo.pageIndex" [pageSize]="pagingInfo.pageSize" [rotate]="true"
             [ellipses]="false" [boundaryLinks]="true" (pageChange)="refreshData()"></ngb-pagination>
