@@ -48,7 +48,7 @@ export class Area {
   }
 
   /**
-   * Show modal add farm
+   * Show modal add area
    */
   public showModalAddArea() {
     this._farmService.getAll().subscribe(farmResp => {
@@ -71,7 +71,7 @@ export class Area {
     this._areaService.getById(id).subscribe(areaResp => {
       this._farmService.getAll().subscribe(farmResp => {
         let modalRef = this._modalService.open(CreateOrUpdateAreaComponent, { backdrop: 'static', size: 'lg', keyboard: false });
-        modalRef.componentInstance.title = "Update Farm";
+        modalRef.componentInstance.title = "Update Area";
         modalRef.componentInstance.area = areaResp.data;
         modalRef.componentInstance.farms = farmResp.data;
         modalRef.result.then(data => {
