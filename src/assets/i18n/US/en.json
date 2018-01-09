@@ -55,10 +55,6 @@
     "group_required": "Venue Group is required",
     "email_required": "Email is required",
     "email_invalid": "Email is invalid",
-    "vendor_name_required": "Vendor Name is required",
-    "vendor_name_inused": "Vendor Name is in used",
-    "category_required": "Category is required",
-    "company_name_required": "Company name is required",
     "phone_invalid": "Phone number is invalid",
     "verify_code_required": "Verification code is required",
     "password_required": "Password is required",
@@ -67,13 +63,10 @@
     "confirm_password_not_macth": "Confirm password does not match",
     "account_blocked_minutes": "Your account is blocked. Please retry after {nMins} minute(s)",
     "account_blocked_seconds": "Your account is blocked. Please retry after {nSecs} second(s)",
-    "file_invalid": "Please chooose {accept} file",
-    "report_required": "Report Id is required",
-    "kpi_format_required": "Format is required",
-    "kpi_frequency_required": "Frequency is required",
-    "kpi_rYGRange_required": "RYG Range is required"
+    "file_invalid": "Please chooose {accept} file"
   },
   "modal": {
-    "delete_user": "Are you sure you want to delete this User? This cannot be undone"
+    "delete_user": "Are you sure you want to delete this User? This cannot be undone",
+    "delete_farm": "Are you sure you want to delete this Farm? This cannot be undone"
   }
 }

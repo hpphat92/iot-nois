@@ -1,0 +1,53 @@
+<div class="col-md-12 row m-b-20">
+    <button class="btn btn-primary btn-icon btn-xs" type="button" (click)="showModalAddFarm()">
+        <i class="ion-plus"></i> Add Farm
+    </button>
+</div>
+
+
+<div *ngIf="!data?.farms?.length" class="col-md-12 row" align="center" class="center">
+    <h1>No data</h1>
+</div>
+
+<div *ngIf="data?.farms?.length" class="col-md-12 row">
+    <table class="table table-bordered table-hover table-condensed" [mfData]="data.farms" #mf="mfDataTable" [mfRowsOnPage]="5">
+        <thead>
+            <tr>
+                <th style="width: 30%">
+                    <mfDefaultSorter by="name">Name</mfDefaultSorter>
+                </th>
+                <!-- <th style="width: 30%">
+                    <mfDefaultSorter by="email">First Name</mfDefaultSorter>
+                </th>
+                <th style="width: 30%">
+                    <mfDefaultSorter by="email">Last Name</mfDefaultSorter>
+                </th> -->
+                <th style="width: 5%">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of mf.data">
+                <td align="left">{{item.name}}</td>
+                <!-- <td>{{item.firstName}}</td>
+                <td>{{item.lastName}}</td> -->
+                <td align="center">
+                    <a href="javascript:void(0)" (click)="showModalEditFarm(item.id)">
+                        <i class="ion-edit"></i>
+                    </a>
+                    <a class="m-l-8" href="javascript:void(0)" (click)="deleteFarm(item.id)">
+                        <i class="ion-trash-a"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="pull-right">
+    <div class="row col-md-12 m-t-20 m-r-15">
+        <ngb-pagination [collectionSize]="data.total" [(page)]="pagingInfo.pageIndex" [pageSize]="pagingInfo.pageSize" [rotate]="true"
+            [ellipses]="false" [boundaryLinks]="true" (pageChange)="refreshData()"></ngb-pagination>
+    </div>
+</div>

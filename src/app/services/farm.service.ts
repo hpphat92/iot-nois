@@ -18,6 +18,12 @@ import { BaseService } from "./base.service";
         this.path = 'farms';
     }
 
+    public search(params: URLSearchParams): Observable<any> {
+        return this.http.get(`${this.path}`, { search: params })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
     public getAll(): Observable<any> {
         return this.http.get(`${this.path}/all`)
             .map(this.extractData)
