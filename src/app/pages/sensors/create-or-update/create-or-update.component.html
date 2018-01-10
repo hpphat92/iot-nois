@@ -1,0 +1,103 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title"> {{title}}</h4>
+        <button class="close" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <form [formGroup]="frm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+            <ngb-tabset #mytab id="ngbTabset">
+                <ngb-tab id="infoTab">
+                    <ng-template ngbTabTitle>Information</ng-template>
+                    <ng-template ngbTabContent>
+                        <div class="row form-group m-b-0 required" [ngClass]="{'has-error': name.invalid && (name.dirty || name.touched)}">
+                            <div class="col-sm-3">
+                                <label class="nowrap">Name</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control border-radius-non" type="text" formControlName="name" placeholder="Name">
+                                <label class="error m-t-10">
+                                    <span *ngIf="name.invalid && (name.dirty || name.touched) && name.errors?.required">
+                                        {{'error.name_required' | translate}}
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row form-group m-b-0 required" [ngClass]="{'has-error': frm.get('sensorType').invalid && (frm.get('sensorType').dirty || frm.get('sensorType').touched)}">
+                            <div class="col-sm-3">
+                                <label class="nowrap">Sensor Type</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select class="form-control" formControlName="sensorType">
+                                    <option value="">-- Select Type --</option>
+                                    <option *ngFor="let c of types" [value]="c.key">{{c.value}}</option>
+                                </select>
+                                <label class="error m-t-10">
+                                    <span *ngIf="frm.get('sensorType').invalid && (frm.get('sensorType').dirty || frm.get('sensorType').touched) && frm.get('sensorType').errors?.required">
+                                        {{'error.sensor_type_required' | translate}}
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </ng-template>
+                </ngb-tab>
+
+                <ngb-tab id="locationTab">
+                    <ng-template ngbTabTitle>Location</ng-template>
+                    <ng-template ngbTabContent>
+                        <div class="row form-group m-b-0">
+                            <div class="col-sm-3">
+                                <label class="nowrap">Farm</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select class="form-control border-radius-non" formControlName="farmId" (change)="farmOnChange($event.target.value)">
+                                    <option value="">-- Select Farm --</option>
+                                    <option *ngFor="let c of farms" [value]="c.id">{{c.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group m-b-0">
+                            <div class="col-sm-3">
+                                <label class="nowrap">Area</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select class="form-control border-radius-non" formControlName="areaId">
+                                    <option value="">-- Select Area --</option>
+                                    <option *ngFor="let c of areas" [value]="c.id">{{c.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group m-b-0">
+                            <div class="col-sm-3">
+                                <label class="nowrap">Location X</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control border-radius-non" type="number" formControlName="locationX" placeholder="Location X">
+                            </div>
+                        </div>
+
+                        <div class="row form-group m-b-0">
+                            <div class="col-sm-3">
+                                <label class="nowrap">Location Y</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control border-radius-non" type="number" formControlName="locationY" placeholder="Location Y">
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
+
+        <div class="modal-footer text-right">
+            <button type="button" class="btn btn-cancel" (click)="closeModal()">Cancel</button>
+            <button class="btn btn-info m-r-5" type="submit">Save</button>
+        </div>
+    </form>
+</div>

@@ -9,19 +9,15 @@ import { HttpService } from '../core/http.service';
 import { BaseService } from "./base.service";
 
 /** 
- * ROPC Farm service. 
+ * ROPC Sensor service. 
  */
-@Injectable() export class AreaService extends BaseService {
+@Injectable() export class SensorService extends BaseService {
 
     constructor(private _http: HttpService) {
         super(_http);
-        this.path = 'areas';
+        this.path = 'sensors';
     }
 
-    /**
-     * search areas
-     * @param params 
-     */
     public search(params: URLSearchParams): Observable<any> {
         return this.http.get(`${this.path}`, { search: params })
             .map(this.extractData)
@@ -29,11 +25,10 @@ import { BaseService } from "./base.service";
     }
 
     /**
-     * search areas
-     * @param params 
+     * get all types
      */
-    public getByFarm(farmId: string): Observable<any> {
-        return this.http.get(`${this.path}/by-farms/${farmId}`)
+    public getTypes(): Observable<any> {
+        return this.http.get(`${this.path}/types`)
             .map(this.extractData)
             .catch(this.handleError);
     }
