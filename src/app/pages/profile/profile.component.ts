@@ -18,10 +18,12 @@ import { ChangePassword } from './changepassword/changepassword.component';
 export class Profile implements OnInit {
 
   public form: FormGroup;
-  public username: AbstractControl;
-  public fullName: AbstractControl;
+  //public username: AbstractControl;
+  //public fullName: AbstractControl;
   public email: AbstractControl;
-  public phoneNumber: AbstractControl;
+  public firstName: AbstractControl;
+  public lastName: AbstractControl;
+  //public phoneNumber: AbstractControl;
   public submitted: boolean = false;
   public avatarUrl: string = '';
 
@@ -39,16 +41,20 @@ export class Profile implements OnInit {
     private modalService: NgbModal) {
 
     this.form = fb.group({
-      'username': [''],
-      'fullName': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
-      'email': [''],
-      'phoneNumber': [''],
+      //'username': [''],
+      //'fullName': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+      'email': ['', Validators.compose([Validators.required])],
+      'firstName':  ['', Validators.compose([Validators.required])],
+      'lastName':  ['', Validators.compose([Validators.required])],
+      //'phoneNumber': [''],
     });
 
-    this.username = this.form.controls['username'];
-    this.fullName = this.form.controls['fullName'];
+    //this.username = this.form.controls['username'];
+    // /this.fullName = this.form.controls['fullName'];
     this.email = this.form.controls['email'];
-    this.phoneNumber = this.form.controls['phoneNumber'];
+    this.firstName = this.form.controls['firstName'];
+    this.lastName = this.form.controls['lastName'];
+    //this.phoneNumber = this.form.controls['phoneNumber'];
 
   }
 
@@ -61,10 +67,12 @@ export class Profile implements OnInit {
    */
   public setFirstProfileValue() {
     var user = this.authService.getUserFromStorage();
-    this.username.setValue(user.username);
-    this.fullName.setValue(user.fullName);
+    //this.username.setValue(user.username);
+    //this.fullName.setValue(user.fullName);
     this.email.setValue(user.email);
-    this.phoneNumber.setValue(user.phoneNumber);
+    this.firstName.setValue(user.firstName);
+    this.lastName.setValue(user.lastName);
+    //this.phoneNumber.setValue(user.phoneNumber);
     if (user.avatarUrl) {
       this.avatarUrl = user.avatarUrl;
       this.profile.picture = user.avatarUrl;
@@ -87,7 +95,7 @@ export class Profile implements OnInit {
     if (response.message) {
 
     } else {
-      this.avatarUrl = response.data.avatarUrl;
+      this.avatarUrl = response.data.url;
     }
   }
 
@@ -98,9 +106,11 @@ export class Profile implements OnInit {
       // Init data to update
       var profile = {
         email: this.email.value,
-        fullName: this.fullName.value,
+        firstName: this.firstName.value,
+        lastName: this.lastName.value,
+        //fullName: this.fullName.value,
         avatarUrl: this.avatarUrl,
-        phoneNumber: this.phoneNumber.value
+        //phoneNumber: this.phoneNumber.value
       }
 
       this.profileService.put(profile).subscribe(
