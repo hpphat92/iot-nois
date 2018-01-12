@@ -39,8 +39,6 @@ export class Farm {
       }
       this.refreshData();
     });
-
-    // this.refreshData();
   }
 
   public onSubmit(): void {
