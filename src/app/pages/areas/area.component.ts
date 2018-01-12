@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { Util, FarmService, AreaService } from '../../services/index';
 import { CreateOrUpdateAreaComponent } from "./create-or-update/create-or-update.component";
@@ -13,31 +14,46 @@ import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog';
 })
 export class Area {
 
+  private frm: FormGroup;
+  public sortByList: any;
+  public farms: any;
   private data: any;
   private pagingInfo: any;
 
   constructor(private _modalService: NgbModal, private _farmService: FarmService,
-    private _util: Util, private _areaService: AreaService, private _translate: TranslateService, ) {
+    private _util: Util, private _areaService: AreaService, private _translate: TranslateService, private _fb: FormBuilder, ) {
     this.data = { total: 0, areas: [] };
     this.pagingInfo = { pageIndex: 1, pageSize: 10 };
   }
 
   public ngOnInit(): void {
-    // this.frm = this._fb.group({
-    //   firstName: [''],
-    //   lastName: [''],
-    //   email: [''],
-    //   // phone: [''],
-    //   sortBy: [''],
-    //   descending: ['false']
-    // });
+    this.frm = this._fb.group({
+      name: [''],
+      farmId: [''],
+      sortBy: [''],
+      ascending: ['true'],
+    });
 
+    this._farmService.getAll().subscribe(farmResp => {
+      this._areaService.getSortByList().subscribe(resp => {
+        this.sortByList = resp.data;
+        if (this.sortByList.length) {
+          this.frm.patchValue({ sortBy: this.sortByList[0].key });
+        }
+        this.farms = farmResp.data;
+        this.refreshData();
+      });
+    });
+  }
+  
+  public onSubmit(): void {
+    this.pagingInfo.pageIndex = 1;
     this.refreshData();
   }
 
   public refreshData(): void {
     let obj = {
-      // ...this.frm.value,
+      ...this.frm.value,
       pageIndex: this.pagingInfo.pageIndex,
       pageSize: this.pagingInfo.pageSize
     }
@@ -50,7 +66,7 @@ export class Area {
   /**
    * Show modal add area
    */
-  public showModalAddArea():void {
+  public showModalAddArea(): void {
     this._farmService.getAll().subscribe(farmResp => {
       let modalRef = this._modalService.open(CreateOrUpdateAreaComponent, { backdrop: 'static', size: 'lg', keyboard: false });
       modalRef.componentInstance.title = "Add New Area";
