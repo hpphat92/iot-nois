@@ -64,7 +64,8 @@
     "confirm_password_not_macth": "Confirm password does not match",
     "account_blocked_minutes": "Your account is blocked. Please retry after {nMins} minute(s)",
     "account_blocked_seconds": "Your account is blocked. Please retry after {nSecs} second(s)",
-    "file_invalid": "Please chooose {accept} file"
+    "file_invalid": "Please chooose {accept} file",
+    "sensorid_required": "Sensor id is required"
   },
   "modal": {
     "delete_user": "Are you sure you want to delete this User? This cannot be undone",
