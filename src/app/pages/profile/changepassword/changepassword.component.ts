@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ProfileService } from '../../../services/index';
+import { EqualPasswordsValidator } from "../../../theme/validators/equalPasswords.validator";
 
 @Component({
     selector: 'add-service-modal',
@@ -22,10 +23,10 @@ export class ChangePassword implements OnInit {
         private profileService: ProfileService) {
 
         this.fChangPassword = fb.group({
-            'oldPassword': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
-            'newPassword': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
-            'confirmNewPassword': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
-        });
+            'oldPassword': ['', Validators.compose([Validators.required])],
+            'newPassword': ['', Validators.compose([Validators.required])],
+            'confirmNewPassword': ['', Validators.compose([Validators.required])],
+        }, { validator: EqualPasswordsValidator.validate('newPassword', 'confirmNewPassword') });
 
         this.oldPassword = this.fChangPassword.controls['oldPassword'];
         this.newPassword = this.fChangPassword.controls['newPassword'];
