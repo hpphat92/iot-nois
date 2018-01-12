@@ -38,3 +38,17 @@
 :host /deep/ .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
   background-color: #F4F7F7;
 }
+
+:host {
+  .area-image {
+    width: 80px;
+    height: 80px;
+    margin: 5px;
+  }
+
+  thead {
+    background: #E7E8E6;
+    font-weight: bolder;
+    color: #000000
+  }
+}
