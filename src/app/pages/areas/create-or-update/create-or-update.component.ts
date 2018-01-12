@@ -14,10 +14,9 @@ import { AppSetting } from '../../../app.setting';
 })
 
 export class CreateOrUpdateAreaComponent implements OnInit {
-
     @ViewChild('mytab')
     mytab: NgbTabset
-
+        debugger;
     public title: string;
     public area: any;
     public farms: any[];
@@ -37,6 +36,7 @@ export class CreateOrUpdateAreaComponent implements OnInit {
     }
 
     ngOnInit() {
+        debugger;
         this.frm = this._fb.group({
             name: ['', Validators.required],
             farmId: ['', Validators.required],

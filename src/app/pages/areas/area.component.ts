@@ -50,7 +50,7 @@ export class Area {
   /**
    * Show modal add area
    */
-  public showModalAddArea() {
+  public showModalAddArea():void {
     this._farmService.getAll().subscribe(farmResp => {
       let modalRef = this._modalService.open(CreateOrUpdateAreaComponent, { backdrop: 'static', size: 'lg', keyboard: false });
       modalRef.componentInstance.title = "Add New Area";

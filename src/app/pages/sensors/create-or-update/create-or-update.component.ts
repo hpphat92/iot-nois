@@ -46,7 +46,7 @@ export class CreateOrUpdateSensorComponent implements OnInit {
             locationX: [''],
             locationY: [''],
         });
-
+        debugger;
         this.name = this.frm.controls['name'];
         this.sensorType = this.frm.controls['sensorType'];
         this.farmId = this.frm.controls['farmId'];

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Util, FarmService, SensorService } from '../../services/index';
+import { Util, FarmService, SensorService,AreaService } from '../../services/index';
 import { CreateOrUpdateSensorComponent } from "./create-or-update/create-or-update.component";
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog';
 
@@ -16,29 +16,29 @@ export class Sensor {
   private data: any;
   private pagingInfo: any;
   private types: any;
+  private allFarms:any;
 
-  constructor(private _modalService: NgbModal, private _farmService: FarmService,
+
+  constructor(private _modalService: NgbModal, private _farmService: FarmService,private _areaService: AreaService,
     private _util: Util, private _translate: TranslateService, private _sensorService: SensorService) {
     this.data = { total: 0, sensors: [] };
     this.pagingInfo = { pageIndex: 1, pageSize: 10 };
   }
 
   public ngOnInit(): void {
-    // this.frm = this._fb.group({
-    //   firstName: [''],
-    //   lastName: [''],
-    //   email: [''],
-    //   // phone: [''],
-    //   sortBy: [''],
-    //   descending: ['false']
-    // });
-
-    this._sensorService.getTypes().subscribe(typeResp => {
-      this.types = typeResp.data;
+    try {
+      this._sensorService.getTypes().subscribe(typeResp => {
+        this.types = typeResp.data;
+      });
+      this._farmService.getAll().subscribe(farmResp => {
+        this.allFarms = farmResp.data;
+      });
       this.refreshData();
-    });
+    }
+    catch(e) {
+      console.log(e);
+    }
   }
-
   public refreshData(): void {
     let obj = {
       // ...this.frm.value,
@@ -55,7 +55,7 @@ export class Sensor {
    * Show modal add sensor
    */
   public showModalAddSensor() {
-    this._farmService.getAll().subscribe(farmResp => {
+    this._farmService.getAll().subscribe(farmResp => {  
       let modalRef = this._modalService.open(CreateOrUpdateSensorComponent, { backdrop: 'static', size: 'lg', keyboard: false });
       modalRef.componentInstance.title = "Add New Sensor";
       modalRef.componentInstance.farms = farmResp.data;
@@ -73,19 +73,22 @@ export class Sensor {
    * @param id 
    */
   public showModalEditSensor(id: string): void {
-    this._sensorService.getById(id).subscribe(sensorResp => {
-      this._farmService.getAll().subscribe(farmResp => {
+    let updateSensor=this.data.sensors.filter(x => x.id == id)[0];
+    //this._sensorService.getById(id).subscribe(sensorResp => {
+      //this._farmService.getAll().subscribe(farmResp => {
         let modalRef = this._modalService.open(CreateOrUpdateSensorComponent, { backdrop: 'static', size: 'lg', keyboard: false });
         modalRef.componentInstance.title = "Update Sensor";
-        modalRef.componentInstance.sensor = sensorResp.data;
-        modalRef.componentInstance.farms = farmResp.data;
+        //modalRef.componentInstance.sensor = sensorResp.data;
+        modalRef.componentInstance.sensor = updateSensor;
+        modalRef.componentInstance.farms = this.allFarms;
+        modalRef.componentInstance.types = this.types;
         modalRef.result.then(data => {
           if (data) {
             this.refreshData();
           }
         }, (err) => { });
-      });
-    });
+      //});
+    //});
   }
 
   /**

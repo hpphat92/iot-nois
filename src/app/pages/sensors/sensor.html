@@ -15,12 +15,18 @@
                 <th style="width: 30%">
                     <mfDefaultSorter by="name">Name</mfDefaultSorter>
                 </th>
-                <!-- <th style="width: 30%">
-                    <mfDefaultSorter by="email">First Name</mfDefaultSorter>
+                <th style="width: 30%">
+                    <mfDefaultSorter by="sensorType">SensorType</mfDefaultSorter>
                 </th>
                 <th style="width: 30%">
-                    <mfDefaultSorter by="email">Last Name</mfDefaultSorter>
-                </th> -->
+                    <mfDefaultSorter by="area">Area</mfDefaultSorter>
+                </th> 
+                <th style="width: 30%">
+                    <mfDefaultSorter by="locationX">LocationX</mfDefaultSorter>
+                </th>
+                <th style="width: 30%">
+                    <mfDefaultSorter by="locationY">LocationY</mfDefaultSorter>
+                </th> 
                 <th style="width: 5%">
                     Action
                 </th>
@@ -29,8 +35,10 @@
         <tbody>
             <tr *ngFor="let item of mf.data">
                 <td align="left">{{item.name}}</td>
-                <!-- <td>{{item.firstName}}</td>
-                <td>{{item.lastName}}</td> -->
+                <td align="left">{{item.sensorType}}</td>
+                <td align="left">{{item.area.name}}</td>
+                <td align="left">{{item.locationX}}</td>
+                <td align="left">{{item.locationY}}</td>
                 <td align="center">
                     <a href="javascript:void(0)" (click)="showModalEditSensor(item.id)">
                         <i class="ion-edit"></i>
