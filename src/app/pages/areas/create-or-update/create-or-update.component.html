@@ -59,13 +59,35 @@
                     <ng-template ngbTabTitle>Sensors</ng-template>
                     <ng-template ngbTabContent>
                         <div class="row form-group">
-                            <div class="col-sm-3">
-                                <label>Sensors</label>
+                            <h3 *ngIf="area.sensors.length == 0" align="center">No Data</h3>
+                            <div class="table-responsive">
+                                <table *ngIf="area.sensors.length > 0" class="table" [mfData]="area.sensors" #mf="mfDataTable" [mfRowsOnPage]="5">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 25%">
+                                                <mfDefaultSorter by="name">Name</mfDefaultSorter>
+                                            </th>
+                                            <th style="width: 25%">
+                                                <mfDefaultSorter by="email">Location X</mfDefaultSorter>
+                                            </th>
+                                            <th style="width: 25%">
+                                                <mfDefaultSorter by="email">Location Y</mfDefaultSorter>
+                                            </th>
+                                            <th style="width: 25%">
+                                                <mfDefaultSorter by="email">Type</mfDefaultSorter>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let area of mf.data">
+                                            <td>{{area.name}}</td>
+                                            <td>{{area.locationX}}</td>
+                                            <td>{{area.locationY}}</td>
+                                            <td>{{area.sensorType}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <!-- <div class="col-sm-9">
-                                <ss-multiselect-dropdown [ngModelOptions]="{standalone: true}" [options]="users" [texts]="myTexts" [settings]="mySettings"
-                                    [(ngModel)]="selectedUsers"></ss-multiselect-dropdown>
-                            </div> -->
                         </div>
                     </ng-template>
                 </ngb-tab>

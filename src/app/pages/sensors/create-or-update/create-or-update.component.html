@@ -12,6 +12,20 @@
                 <ngb-tab id="infoTab">
                     <ng-template ngbTabTitle>Information</ng-template>
                     <ng-template ngbTabContent>
+                        <div class="row form-group m-b-0 required" [ngClass]="{'has-error': id.invalid && (id.dirty || id.touched)}">
+                            <div class="col-sm-3">
+                                <label class="nowrap">Sensor Id</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input [readonly]="sensor && sensor.id" class="form-control border-radius-non" type="text" formControlName="id" placeholder="Sensor Id">
+                                <label class="error m-t-10">
+                                    <span *ngIf="id.invalid && (id.dirty || id.touched) && id.errors?.required">
+                                        {{'error.sensorid_required' | translate}}
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
                         <div class="row form-group m-b-0 required" [ngClass]="{'has-error': name.invalid && (name.dirty || name.touched)}">
                             <div class="col-sm-3">
                                 <label class="nowrap">Name</label>
@@ -55,7 +69,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <select class="form-control border-radius-non" formControlName="farmId" (change)="farmOnChange($event.target.value)">
-                                    <option value="">-- Select Farm --</option>
+                                    <option disabled value="">-- Select Farm --</option>
                                     <option *ngFor="let c of farms" [value]="c.id">{{c.name}}</option>
                                 </select>
                             </div>
@@ -66,8 +80,8 @@
                                 <label class="nowrap">Area</label>
                             </div>
                             <div class="col-sm-9">
-                                <select class="form-control border-radius-non" formControlName="areaId">
-                                    <option value="">-- Select Area --</option>
+                                <select class="form-control border-radius-non" formControlName="areaId" (change)="areaOnChange($event.target.value)">
+                                    <option disabled value="">-- Select Area --</option>
                                     <option *ngFor="let c of areas" [value]="c.id">{{c.name}}</option>
                                 </select>
                             </div>

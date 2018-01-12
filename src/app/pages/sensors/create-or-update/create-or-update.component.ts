@@ -6,6 +6,7 @@ import { NgUploaderOptions } from 'ngx-uploader';
 
 import { AreaService, SensorService } from '../../../services/index';
 import { AppSetting } from '../../../app.setting';
+import { debounce } from 'rxjs/operator/debounce';
 
 @Component({
     selector: 'create-or-update-farm',
@@ -25,6 +26,7 @@ export class CreateOrUpdateSensorComponent implements OnInit {
     public types: any[];
 
     private frm: FormGroup;
+    private id: AbstractControl;
     private name: AbstractControl;
     private farmId: AbstractControl;
     private areaId: AbstractControl;
@@ -39,14 +41,15 @@ export class CreateOrUpdateSensorComponent implements OnInit {
 
     ngOnInit() {
         this.frm = this._fb.group({
+            id: ['', Validators.required],
             name: ['', Validators.required],
             sensorType: ['', Validators.required],
             farmId: [''],
-            areaId: [''],
-            locationX: [''],
-            locationY: [''],
+            areaId: [{ value: '', disabled: true }],
+            locationX: [{ value: 0, disabled: true }],
+            locationY: [{ value: 0, disabled: true }],
         });
-        debugger;
+        this.id = this.frm.controls['id'];
         this.name = this.frm.controls['name'];
         this.sensorType = this.frm.controls['sensorType'];
         this.farmId = this.frm.controls['farmId'];
@@ -56,6 +59,14 @@ export class CreateOrUpdateSensorComponent implements OnInit {
 
         if (this.sensor && this.sensor.id) {
             this.frm.patchValue(this.sensor);
+            this.frm.patchValue({ farmId: this.sensor.area.farmId });
+            this._areaService.getByFarm(this.sensor.area.farmId).subscribe(resp => {
+                this.areas = resp.data;
+                this.frm.patchValue({ areaId: this.sensor.area.id });
+                this.areaId.enable();
+                this.locationX.enable();
+                this.locationY.enable();
+            });
         }
     }
 
@@ -89,9 +100,22 @@ export class CreateOrUpdateSensorComponent implements OnInit {
     }
 
     farmOnChange(farmId: string) {
-        this._areaService.getByFarm(farmId).subscribe(resp => {
-            this.areas = resp.data;
-        });
+        if (farmId) {
+            this.areaId.enable();
+            this._areaService.getByFarm(farmId).subscribe(resp => {
+                this.areas = resp.data;
+            });
+        } else {
+            this.areas = [];
+            this.frm.patchValue({ areaId: '' });
+        }
+    }
+
+    areaOnChange(areaId: string) {
+        if (areaId) {
+            this.locationX.enable();
+            this.locationY.enable();
+        }
     }
 
     closeModal() {

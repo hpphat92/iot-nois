@@ -4,10 +4,6 @@
     </button>
 </div>
 
-<div *ngIf="!data?.areas?.length" class="col-md-12" align="center" class="center">
-    <h1>No data</h1>
-</div>
-
 <div class="col-md-12">
     <form [formGroup]="frm" (ngSubmit)="onSubmit()" class="m-b-20">
         <div class="row">
@@ -51,6 +47,10 @@
             </div>
         </div>
     </form>
+</div>
+
+<div *ngIf="!data?.areas?.length" class="col-md-12" align="center" class="center">
+    <h1>No data</h1>
 </div>
 
 <div *ngIf="data?.areas?.length" class="col-md-12">
