@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { Util, UserService, FarmService } from '../../services/index';
 import { CreateOrUpdateFarmComponent } from "./create-or-update/create-or-update.component";
@@ -13,31 +14,43 @@ import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog';
 })
 export class Farm {
 
+  private frm: FormGroup;
+  public sortByList: any;
   private data: any;
   private pagingInfo: any;
 
   constructor(private _userService: UserService, private _farmService: FarmService, private _modalService: NgbModal,
-    private _translate: TranslateService, private _util: Util, ) {
+    private _translate: TranslateService, private _util: Util, private _fb: FormBuilder, ) {
     this.data = { total: 0, farms: [] };
     this.pagingInfo = { pageIndex: 1, pageSize: 10 };
   }
 
   public ngOnInit(): void {
-    // this.frm = this._fb.group({
-    //   firstName: [''],
-    //   lastName: [''],
-    //   email: [''],
-    //   // phone: [''],
-    //   sortBy: [''],
-    //   descending: ['false']
-    // });
+    this.frm = this._fb.group({
+      name: [''],
+      sortBy: [''],
+      ascending: ['true']
+    });
 
+    this._farmService.getSortByList().subscribe(resp => {
+      this.sortByList = resp.data;
+      if (this.sortByList.length) {
+        this.frm.patchValue({ sortBy: this.sortByList[0].key });
+      }
+      this.refreshData();
+    });
+
+    // this.refreshData();
+  }
+
+  public onSubmit(): void {
+    this.pagingInfo.pageIndex = 1;
     this.refreshData();
   }
 
   public refreshData(): void {
     let obj = {
-      // ...this.frm.value,
+      ...this.frm.value,
       pageIndex: this.pagingInfo.pageIndex,
       pageSize: this.pagingInfo.pageSize
     }

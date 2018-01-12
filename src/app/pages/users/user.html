@@ -1,14 +1,60 @@
-<div class="col-md-12 row m-b-20">
+<div class="col-md-12 m-b-20">
     <button class="btn btn-primary btn-icon btn-xs" type="button" (click)="showModalAddUser()">
         <i class="ion-plus"></i> Add User
     </button>
 </div>
 
-<div *ngIf="!data?.users?.length" class="col-md-12 row" align="center" class="center">
+<div class="col-md-12">
+    <form [formGroup]="frm" (ngSubmit)="onSubmit()" class="m-b-20">
+        <div class="row">
+            <div class="col-md-2">
+                <label class="label-control">First Name</label>
+                <input class="form-control border-radius-non" type="text" formControlName="firstName" placeholder="First Name">
+            </div>
+            <div class="col-md-2">
+                <label class="label-control">Last Name</label>
+                <input class="form-control border-radius-non" type="text" formControlName="lastName" placeholder="Last Name">
+            </div>
+            <div class="col-md-2">
+                <label class="label-control">Email</label>
+                <input class="form-control border-radius-non" type="text" formControlName="email" placeholder="Email">
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <label class="col-sm-12 label-control">Sort by</label>
+                </div>
+                <div class="row">
+                    <div class="offset-sm-1 col-sm-5">
+                        <div class="row">
+                            <select class="form-control border-radius-non s-h-36" formControlName="sortBy">
+                                <option *ngFor="let o of sortByList" [ngValue]="o.key">{{o.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="offset-sm-1 col-sm-5">
+                        <div class="row">
+                            <select class="form-control border-radius-non s-h-36" formControlName="ascending">
+                                <option value="false">Ascending</option>
+                                <option value="true">Descending</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="label-control">&nbsp;</label>
+                <button class="btn btn-primary m-t-22" type="submit">
+                    <i class="ion-android-search"></i> Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="!data?.users?.length" class="col-md-12" align="center" class="center">
     <h1>No data</h1>
 </div>
 
-<div *ngIf="data?.users?.length" class="col-md-12 row">
+<div *ngIf="data?.users?.length" class="col-md-12">
     <table class="table table-bordered table-hover table-condensed" [mfData]="data.users" #mf="mfDataTable" [mfRowsOnPage]="5">
         <thead>
             <tr>
