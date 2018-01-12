@@ -44,8 +44,8 @@ export class Profile implements OnInit {
       //'username': [''],
       //'fullName': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
       'email': ['', Validators.compose([Validators.required])],
-      'firstName':  ['', Validators.compose([Validators.required])],
-      'lastName':  ['', Validators.compose([Validators.required])],
+      'firstName': ['', Validators.compose([Validators.required])],
+      'lastName': ['', Validators.compose([Validators.required])],
       //'phoneNumber': [''],
     });
 
@@ -74,6 +74,7 @@ export class Profile implements OnInit {
     this.lastName.setValue(user.lastName);
     //this.phoneNumber.setValue(user.phoneNumber);
     if (user.avatarUrl) {
+      this.defaultPicture = user.avatarUrl;
       this.avatarUrl = user.avatarUrl;
       this.profile.picture = user.avatarUrl;
     }
@@ -116,7 +117,14 @@ export class Profile implements OnInit {
       this.profileService.put(profile).subscribe(
         response => {
           this.submitted = false;
-        });
+          this.profileService.get().subscribe(
+            response => {
+              window.location.reload();
+            });
+        },
+        error => {
+          this.submitted = false;
+        }, );
     }
   }
 

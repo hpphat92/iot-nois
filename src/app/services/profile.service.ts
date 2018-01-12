@@ -13,7 +13,7 @@ import { HttpService } from '../core/http.service';
  */
 @Injectable() export class ProfileService {
 
-    private PREFIX_API = "/profiles";
+    private PREFIX_API = "profiles";
     private headers: Headers;
     private options: RequestOptions;
 
@@ -30,7 +30,8 @@ import { HttpService } from '../core/http.service';
      * 
      * @return The user's data 
      */
-    public get(): Observable<any> {
+    public get(): Observable<any> {       
+        localStorage.removeItem("user");
         return this.http.get(this.PREFIX_API, this.options, false)
             .map((res: Response) => {
                 let body: any = res.json();
