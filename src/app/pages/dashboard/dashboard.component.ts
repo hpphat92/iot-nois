@@ -1,4 +1,6 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
+
+import { DashboardService } from '../../services/index';
 
 @Component({
   selector: 'dashboard',
@@ -7,7 +9,16 @@ import {Component} from '@angular/core';
 })
 export class Dashboard {
 
-  constructor() {
+  private data: any;
+
+  constructor(private _dashboardService: DashboardService) {
+  }
+
+  public ngOnInit(): void {
+    this._dashboardService.getDashboard().subscribe(resp => {
+      this.data = resp.data;
+      console.log(this.data);
+    });
   }
 
 }
