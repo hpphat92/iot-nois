@@ -3,14 +3,16 @@
     "lblApp": "IoT Service",
     "copyright": "Copyright © 2018.",
     "lblTitle": "Sign into IoT account",
-    "lblLogin": "Login",
+    "lblSignupTitle": "Register an IoT account",
+    "lblLogin": "Email",
     "username": "Email",
     "password": "Password",
     "forgot_password": "Forgot Password?",
     "passwordReq": "Password is required",
     "usernameReq": "Email is required",
     "lblEmail": "Email",
-    "lblSubmit": "Sign in"
+    "lblSubmit": "Sign in",
+    "lblSignup": "Don't have an account?"
   },
   "forgotpassword": {
     "lblSignin": "Sign in",
