@@ -19,6 +19,7 @@ export class Area {
   public farms: any;
   private data: any;
   private pagingInfo: any;
+  public isCollapsed: boolean = true;
 
   constructor(private _modalService: NgbModal, private _farmService: FarmService,
     private _util: Util, private _areaService: AreaService, private _translate: TranslateService, private _fb: FormBuilder, ) {
@@ -45,7 +46,7 @@ export class Area {
       });
     });
   }
-  
+
   public onSubmit(): void {
     this.pagingInfo.pageIndex = 1;
     this.refreshData();
@@ -120,5 +121,9 @@ export class Area {
         }
       }, (err) => { });
     });
+  }
+
+  public togleSearch() {
+    this.isCollapsed = !this.isCollapsed;
   }
 }

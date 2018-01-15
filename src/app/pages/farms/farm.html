@@ -1,11 +1,14 @@
-<div class="col-md-12 m-b-20">
-    <button class="btn btn-primary btn-icon btn-xs" type="button" (click)="showModalAddFarm()">
+<div class="col-md-12">
+    <button class="btn btn-default btn-icon" [ngClass]="{'search-group': !isCollapsed}" type="button" (click)="togleSearch()">
+        <i class="ion-search"></i>
+    </button>
+    <button class="btn btn-primary btn-icon btn-sm" type="button" (click)="showModalAddFarm()">
         <i class="ion-plus"></i> Add Farm
     </button>
 </div>
 
 <div class="col-md-12">
-    <form [formGroup]="frm" (ngSubmit)="onSubmit()" class="m-b-20">
+    <form [formGroup]="frm" (ngSubmit)="onSubmit()" class="m-b-20 search-form" [ngClass]="{'d-none': isCollapsed}">
         <div class="row">
             <div class="col-md-2">
                 <label class="label-control">Name</label>
@@ -42,11 +45,11 @@
     </form>
 </div>
 
-<div *ngIf="!data?.farms?.length" class="col-md-12" align="center" class="center">
+<div *ngIf="!data?.farms?.length" class="col-md-12 m-t-20" align="center" class="center">
     <h1>No data</h1>
 </div>
 
-<div *ngIf="data?.farms?.length" class="col-md-12">
+<div *ngIf="data?.farms?.length" class="col-md-12 m-t-20">
     <table class="table table-bordered table-hover table-condensed" [mfData]="data.farms" #mf="mfDataTable" [mfRowsOnPage]="5">
         <thead>
             <tr>

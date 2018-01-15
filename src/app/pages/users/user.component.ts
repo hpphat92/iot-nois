@@ -18,6 +18,7 @@ export class User {
   public sortByList: any;
   private data: any;
   private pagingInfo: any;
+  public isCollapsed: boolean = true;
 
   constructor(private _userService: UserService, private _util: Util, private _fb: FormBuilder,
     private _farmService: FarmService, private _translate: TranslateService,
@@ -116,4 +117,7 @@ export class User {
     });
   }
 
+  public togleSearch() {
+    this.isCollapsed = !this.isCollapsed;
+  }
 }
