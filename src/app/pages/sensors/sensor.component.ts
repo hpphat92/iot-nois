@@ -22,6 +22,7 @@ export class Sensor {
   private data: any;
   private pagingInfo: any;
   private types: any;
+  public isCollapsed: boolean = true;
 
   constructor(private _modalService: NgbModal, private _farmService: FarmService, private _areaService: AreaService,
     private _util: Util, private _translate: TranslateService, private _sensorService: SensorService, private _fb: FormBuilder, ) {
@@ -139,4 +140,7 @@ export class Sensor {
     }
   }
 
+  public togleSearch() {
+    this.isCollapsed = !this.isCollapsed;
+  }
 }

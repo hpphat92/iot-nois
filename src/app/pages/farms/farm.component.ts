@@ -18,6 +18,7 @@ export class Farm {
   public sortByList: any;
   private data: any;
   private pagingInfo: any;
+  public isCollapsed: boolean = true;
 
   constructor(private _userService: UserService, private _farmService: FarmService, private _modalService: NgbModal,
     private _translate: TranslateService, private _util: Util, private _fb: FormBuilder, ) {
@@ -115,5 +116,9 @@ export class Farm {
         }
       }, (err) => { });
     });
+  }
+
+  public togleSearch() {
+    this.isCollapsed = !this.isCollapsed;
   }
 }
