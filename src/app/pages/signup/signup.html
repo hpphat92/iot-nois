@@ -17,7 +17,7 @@
           <img alt="logo" data-src="assets/img/logo.jpg" data-src-retina="assets/img/logo.jpg" height="128" src="assets/img/logo.jpg"
             width="128">
         </div>
-        <p class="p-t-35 p-b-15" translate>{{'login.lblTitle'}}</p>
+        <p class="p-t-35 p-b-15" translate>{{'login.lblSignupTitle'}}</p>
         <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="p-t-15">
           <!-- Username design -->
           <div class="form-group form-group-default" [ngClass]="{'has-error-auth': (!username.valid && username.touched), 'has-success': (username.valid && username.touched)}">
@@ -39,14 +39,11 @@
           </div>
 
           <label class="error" *ngIf="(!password.valid && password.touched)" translate>{{'login.passwordReq'}}</label>
-
-          <a href="#/forgotpassword" routerlink="/forgotpassword" class="forgotpassword" translate>{{'login.forgot_password'}}</a>
-
+          <a href=" #/login" routerlink="/login" translate>{{'forgotpassword.lblSignin'}}</a>
           <div class="m-t-10 text-center">
-            <button class="btn btn-primary btn-cons" type="submit" [disabled]="!form.valid" translate>{{'login.lblSubmit'}}</button>
+            <button class="btn btn-primary btn-cons" type="submit" [disabled]="!form.valid" translate>Sing Up</button>
           </div>
         </form>
-        <p class="m-t-10 p-t-35 p-b-15" translate>{{'login.lblSignup'}} <a href="#/signup" routerlink="/signup">Sign Up</a></p>
       </div>
     </div>
   </div>
