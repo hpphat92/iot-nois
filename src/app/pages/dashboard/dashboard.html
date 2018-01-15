@@ -1,0 +1,142 @@
+<div class="widgets">
+    <div class="row">
+
+        <div class="col-md-12" *ngFor="let f of data">
+            <ba-card cardTitle="{{f.name}}" baCardClass="with-scroll button-panel">
+                <h1 *ngIf="f.areas.length == 0" align="center"> No Area </h1>
+                <div *ngFor="let a of f.areas; let i = index">
+                    <div class="row" *ngIf="i % 4 === 0">
+                        <div class="col-xl-3 col-lg-6 col-md-6">
+                            <ba-card *ngIf="f.areas[i]" title="Raised Buttons" baCardClass="with-scroll button-panel">
+                                <div>
+                                    <img src="{{f.areas[i].photo}}" alt="" height="50" width="50">
+                                    <a href="#">{{f.areas[i].name}}</a>
+                                </div>
+                                <div class="m-t-20" *ngIf="f.areas[i].sensors.length == 0">
+                                    <h4>No Sensors</h4>
+                                </div>
+                                <div class="m-t-20" *ngIf="f.areas[i].sensors.length > 0">
+                                    <p>List Sensors</p>
+                                </div>
+                                <div class="m-t-20" *ngIf="f.areas[i].sensors.length > 0">
+                                    <div class="horizontal-scroll">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 50%" class="table-id">Id</th>
+                                                    <th style="width: 50%">Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let s of f.areas[i].sensors">
+                                                    <td class="table-id">{{s.id}}</td>
+                                                    <td>{{s.name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </ba-card>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6">
+                            <ba-card *ngIf="f.areas[i + 1]" title="Raised Buttons" baCardClass="with-scroll button-panel">
+                                <div>
+                                    <img src="{{f.areas[i + 1].photo}}" alt="" height="50" width="50">
+                                    <a href="#">{{f.areas[i + 1].name}}</a>
+                                </div>
+                                <div class="m-t-20" *ngIf="f.areas[i + 1].sensors.length == 0">
+                                    <h4>No Sensors</h4>
+                                </div>
+                                <div class="m-t-20" *ngIf="f.areas[i + 1].sensors.length > 0">
+                                    <p>List Sensors</p>
+                                </div>
+                                <div class="m-t-20" *ngIf="f.areas[i + 1].sensors.length > 0">
+                                    <div class="horizontal-scroll">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 50%" class="table-id">Id</th>
+                                                    <th style="width: 50%">Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let s of f.areas[i + 1].sensors">
+                                                    <td class="table-id">{{s.id}}</td>
+                                                    <td>{{s.name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </ba-card>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6">
+                            <ba-card *ngIf="f.areas[i + 2]" title="Raised Buttons" baCardClass="with-scroll button-panel">
+                                <div>
+                                    <img src="{{f.areas[i + 2].photo}}" alt="" height="50" width="50">
+                                    <a href="#">{{f.areas[i + 2].name}}</a>
+                                </div>
+                                <div class="m-t-20" *ngIf="f.areas[i + 2].sensors.length == 0">
+                                    <h4>No Sensors</h4>
+                                </div>
+                                <div class="m-t-20" *ngIf="f.areas[i + 2].sensors.length > 0">
+                                    <p>List Sensors</p>
+                                </div>
+                                <div class="m-t-20" *ngIf="f.areas[i + 2].sensors.length > 0">
+                                    <div class="horizontal-scroll">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 50%" class="table-id">Id</th>
+                                                    <th style="width: 50%">Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let s of f.areas[i + 2].sensors">
+                                                    <td class="table-id">{{s.id}}</td>
+                                                    <td>{{s.name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </ba-card>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6">
+                            <ba-card *ngIf="f.areas[i + 3]" title="Raised Buttons" baCardClass="with-scroll button-panel">
+                                <div>
+                                    <img src="{{f.areas[i + 3].photo}}" alt="" height="50" width="50">
+                                    <a href="#">{{f.areas[i + 3].name}}</a>
+                                </div>
+                                <div class="m-t-20" *ngIf="f.areas[i + 3].sensors.length == 0">
+                                    <h4>No Sensors</h4>
+                                </div>
+                                <div class="m-t-20" *ngIf="f.areas[i + 3].sensors.length > 0">
+                                    <p>List Sensors</p>
+                                </div>
+                                <div class="m-t-20" *ngIf="f.areas[i + 3].sensors.length > 0">
+                                    <div class="horizontal-scroll">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 50%" class="table-id">Id</th>
+                                                    <th style="width: 50%">Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let s of f.areas[i + 3].sensors">
+                                                    <td class="table-id">{{s.id}}</td>
+                                                    <td>{{s.name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </ba-card>
+                        </div>
+                    </div>
+                </div>
+            </ba-card>
+        </div>
+    </div>
+</div>
