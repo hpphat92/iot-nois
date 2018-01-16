@@ -1,0 +1,73 @@
+@media screen and (min-width: 1620px) {
+  .row.shift-up {
+    > * {
+      margin-top: -573px;
+    }
+  }
+}
+
+@media screen and (max-width: 1620px) {
+  .card.feed-panel.large-card {
+    height: 824px;
+  }
+}
+
+.user-stats-card {
+  .card-title {
+    padding: 0 0 15px;
+  }
+}
+
+.blurCalendar {
+  height: 475px;
+}
+
+.m-t-20 {
+  margin-top: 20px;
+}
+
+.content {
+  flex-grow: 1;
+  height: 100%;
+  display: flex;
+  .map {
+    margin: 20px;
+    flex-grow: 1;
+    height: -moz-calc(100% - 60px);
+    height: -webkit-calc(100% - 60px);
+    height: calc(100% - 60px);
+    min-height: 465px;
+    border: 1px solid rgb(5, 119, 49);
+  }
+  .chart {
+    display: none;
+    width: 680px;
+    margin: 20px;
+    position: relative;
+    &.active {
+      display: block;
+    }
+    .card {
+      height: -moz-calc(100% - 25px);
+      height: -webkit-calc(100% - 25px);
+      height: calc(100% - 25px);
+      min-height: 465px;
+    }
+    .chart-title, .chart-legend {
+      padding-left: 10px;
+    }
+    .chart-area {
+      width: 100% !important;
+    }
+    .close {
+      position: absolute;
+      top: 0;
+      font-size: 18px;
+      right: 1px;
+      padding: 3px 6px;
+      border: 1px solid;
+      border-radius: 0 3px 0 0;
+      cursor: pointer;
+    }
+  }
+}

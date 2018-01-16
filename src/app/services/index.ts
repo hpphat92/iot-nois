@@ -7,3 +7,4 @@ export * from './farm.service';
 export * from './area.service';
 export * from './sensor.service';
 export * from './dashboard.service';
+export * from './hub.service';

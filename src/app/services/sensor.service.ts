@@ -32,4 +32,13 @@ import { BaseService } from "./base.service";
             .map(this.extractData)
             .catch(this.handleError);
     }
+
+    /**
+     * get all types
+     */
+    public getTimeData(id: string, data: any): Observable<any> {
+        return this.http.post(`${this.path}/${id}/data`, data)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
 }  
