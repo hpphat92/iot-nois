@@ -2,7 +2,8 @@ import { OnInit, Component } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgUploaderOptions } from 'ngx-uploader';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { GlobalState } from '../../global.state';
 import { AuthService, ProfileService } from '../../services/index';
@@ -18,12 +19,9 @@ import { ChangePassword } from './changepassword/changepassword.component';
 export class Profile implements OnInit {
 
   public form: FormGroup;
-  //public username: AbstractControl;
-  //public fullName: AbstractControl;
   public email: AbstractControl;
   public firstName: AbstractControl;
   public lastName: AbstractControl;
-  //public phoneNumber: AbstractControl;
   public submitted: boolean = false;
   public avatarUrl: string = '';
 
@@ -32,13 +30,9 @@ export class Profile implements OnInit {
     picture: this.defaultPicture
   };
 
-  constructor(
-    fb: FormBuilder,
-    private route: ActivatedRoute,
-    private profileService: ProfileService,
-    private authService: AuthService,
-    private state: GlobalState,
-    private modalService: NgbModal) {
+  constructor(private router: Router, private toastr: ToastsManager, fb: FormBuilder,
+    private route: ActivatedRoute, private profileService: ProfileService, private authService: AuthService,
+    private state: GlobalState, private modalService: NgbModal) {
 
     this.form = fb.group({
       //'username': [''],
@@ -92,11 +86,20 @@ export class Profile implements OnInit {
    * @param event 
    */
   public onUploadCompleted(event) {
-    var response = JSON.parse(event.response);
-    if (response.message) {
+    if (event.status == 401) {
+      this.toastr.error("Must login", 'Error');
+      localStorage.clear();
+      this.router.navigateByUrl('/login');
+    } else if (event.status == 200) {
+      var response = JSON.parse(event.response);
+      if (response.message) {
 
+      } else {
+        this.avatarUrl = response.data.url;
+      }
     } else {
-      this.avatarUrl = response.data.url;
+      // error handle
+      this.toastr.error("Cannot upload avatar", 'Error');
     }
   }
 

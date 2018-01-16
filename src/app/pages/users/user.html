@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    <button class="btn btn-default btn-icon" [ngClass]="{'search-group': !isCollapsed}" type="button" (click)="togleSearch()">
+    <button class="btn btn-primary btn-icon btn-sm" [ngClass]="{'search-group': !isCollapsed}" type="button" (click)="togleSearch()">
         <i class="ion-search"></i>
     </button>
     <button class="btn btn-primary btn-icon btn-sm" type="button" (click)="showModalAddUser()">
@@ -61,14 +61,17 @@
     <table class="table table-bordered table-hover table-condensed" [mfData]="data.users" #mf="mfDataTable" [mfRowsOnPage]="5">
         <thead>
             <tr>
-                <th style="width: 30%">
+                <th style="width: 23%">
                     <mfDefaultSorter by="name">Email</mfDefaultSorter>
                 </th>
-                <th style="width: 30%">
+                <th style="width: 23%">
                     <mfDefaultSorter by="email">First Name</mfDefaultSorter>
                 </th>
-                <th style="width: 30%">
+                <th style="width: 23%">
                     <mfDefaultSorter by="email">Last Name</mfDefaultSorter>
+                </th>
+                <th style="width: 23%">
+                    <mfDefaultSorter by="email">Created Date</mfDefaultSorter>
                 </th>
                 <th style="width: 5%">
                     Action
@@ -80,6 +83,7 @@
                 <td align="left">{{item.email}}</td>
                 <td>{{item.firstName}}</td>
                 <td>{{item.lastName}}</td>
+                <td>{{item.createdAt | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td align="center">
                     <a href="javascript:void(0)" (click)="showModalEditUser(item.id)">
                         <i class="ion-edit"></i>

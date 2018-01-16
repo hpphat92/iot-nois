@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    <button class="btn btn-default btn-icon" [ngClass]="{'search-group': !isCollapsed}" type="button" (click)="togleSearch()">
+    <button class="btn btn-primary btn-icon btn-sm" [ngClass]="{'search-group': !isCollapsed}" type="button" (click)="togleSearch()">
         <i class="ion-search"></i>
     </button>
     <button class="btn btn-primary btn-icon btn-xs btn-sm" type="button" (click)="showModalAddArea()">
@@ -64,11 +64,11 @@
                     <mfDefaultSorter by="name">Name</mfDefaultSorter>
                 </th>
                 <th style="width: 30%">
-                    <mfDefaultSorter by="email">Farm</mfDefaultSorter>
+                    <mfDefaultSorter by="farm">Farm</mfDefaultSorter>
                 </th>
-                <!-- <th style="width: 30%">
-                    <mfDefaultSorter by="email">Last Name</mfDefaultSorter>
-                </th> -->
+                <th style="width: 30%">
+                    <mfDefaultSorter by="date">Created Date</mfDefaultSorter>
+                </th>
                 <th style="width: 5%">
                     Action
                 </th>
@@ -78,7 +78,7 @@
             <tr *ngFor="let item of mf.data">
                 <td align="left">{{item.name}}</td>
                 <td>{{item.farm.name}}</td>
-                <!-- <td>{{item.lastName}}</td> -->
+                <td>{{item.createdAt | date:'yyyy-MM-dd HH:mm'}}</td>
                 <td align="center">
                     <a href="javascript:void(0)" (click)="showModalEditArea(item.id)">
                         <i class="ion-edit"></i>

@@ -33,7 +33,7 @@ export class User {
       lastName: [''],
       email: [''],
       sortBy: [''],
-      ascending: ['true']
+      ascending: ['false']
     });
 
     this._userService.getSortByList().subscribe(resp => {

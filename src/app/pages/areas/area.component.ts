@@ -32,7 +32,7 @@ export class Area {
       name: [''],
       farmId: [''],
       sortBy: [''],
-      ascending: ['true'],
+      ascending: ['false'],
     });
 
     this._farmService.getAll().subscribe(farmResp => {
