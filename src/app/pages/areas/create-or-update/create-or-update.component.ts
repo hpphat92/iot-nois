@@ -3,6 +3,8 @@ import { NgbActiveModal, NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { EqualPasswordsValidator } from "../../../theme/validators/equalPasswords.validator";
 import { NgUploaderOptions } from 'ngx-uploader';
+import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { AreaService } from '../../../services/index';
 import { AppSetting } from '../../../app.setting';
@@ -16,7 +18,7 @@ import { AppSetting } from '../../../app.setting';
 export class CreateOrUpdateAreaComponent implements OnInit {
     @ViewChild('mytab')
     mytab: NgbTabset
-        debugger;
+    debugger;
     public title: string;
     public area: any;
     public farms: any[];
@@ -31,7 +33,7 @@ export class CreateOrUpdateAreaComponent implements OnInit {
     private avatarUrl: string = '';
 
     constructor(private _fb: FormBuilder, private activeModal: NgbActiveModal,
-        private _areaService: AreaService, ) {
+        private _areaService: AreaService, private router: Router, private toastr: ToastsManager, ) {
 
     }
 
@@ -94,12 +96,21 @@ export class CreateOrUpdateAreaComponent implements OnInit {
      * @param event 
      */
     public onUploadCompleted(event) {
-        var response = JSON.parse(event.response);
-        if (response.message) {
+        if (event.status == 401) {
+            this.toastr.error("Must login", 'Error');
+            localStorage.clear();
+            this.router.navigateByUrl('/login');
+        } else if (event.status == 200) {
+            var response = JSON.parse(event.response);
+            if (response.message) {
 
+            } else {
+                this.avatarUrl = response.data.url;
+                this.profile.picture = response.data.url;
+            }
         } else {
-            this.avatarUrl = response.data.url;
-            this.profile.picture = response.data.url;
+            // error handle
+            this.toastr.error("Cannot upload avatar", 'Error');
         }
     }
 

@@ -34,6 +34,7 @@ export const routes: Routes = [
       { path: 'areas', loadChildren: './areas/area.module#AreaModule', canActivate: [AuthGuard] },
       { path: 'sensors', loadChildren: './sensors/sensor.module#SensorModule', canActivate: [AuthGuard] },
       { path: 'profile', loadChildren: './profile/profile.module#ProfileModule', canActivate: [AuthGuard] },
+      { path: 'change-password', loadChildren: './change-password/change-password.module#ChangePasswordModule', canActivate: [AuthGuard] },
       { path: 'area-detail/:id', loadChildren: './area-detail/area-detail.module#AreaDetailModule', canActivate: [AuthGuard] },
     ]
   }

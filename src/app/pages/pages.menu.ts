@@ -16,6 +16,19 @@ export const PAGES_MENU = [
         }
       },
       {
+        path: 'change-password',
+        data: {
+          menu: {
+            title: 'general.menu.change-password',
+            icon: 'ion-android-home',
+            selected: false,
+            expanded: false,
+            hidden: true,
+            order: 0,
+          }
+        }
+      },
+      {
         path: 'dashboard',
         data: {
           menu: {

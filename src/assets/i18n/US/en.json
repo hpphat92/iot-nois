@@ -41,6 +41,7 @@
     },
     "menu": {
       "profile": "Profile",
+      "change-password": "Change Password",
       "dashboard": "Dashboard",
       "config": "Configuration",
       "user": "Users",

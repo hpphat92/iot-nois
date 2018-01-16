@@ -4,6 +4,8 @@ import { FormGroup, AbstractControl, FormBuilder, FormControl, Validators } from
 import { EqualPasswordsValidator } from "../../../theme/validators/equalPasswords.validator";
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { NgUploaderOptions } from 'ngx-uploader';
+import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { UserService } from '../../../services/index';
 import { AppSetting } from '../../../app.setting';
@@ -62,7 +64,7 @@ export class CreateOrUpdateUserComponent implements OnInit {
     };
 
     constructor(private _fb: FormBuilder, private activeModal: NgbActiveModal,
-        private _userService: UserService, ) {
+        private _userService: UserService, private router: Router, private toastr: ToastsManager, ) {
 
     }
 
@@ -149,12 +151,21 @@ export class CreateOrUpdateUserComponent implements OnInit {
      * @param event 
      */
     public onUploadCompleted(event) {
-        var response = JSON.parse(event.response);
-        if (response.message) {
+        if (event.status == 401) {
+            this.toastr.error("Must login", 'Error');
+            localStorage.clear();
+            this.router.navigateByUrl('/login');
+        } else if (event.status == 200) {
+            var response = JSON.parse(event.response);
+            if (response.message) {
 
+            } else {
+                this.avatarUrl = response.data.url;
+                this.profile.picture = response.data.url;
+            }
         } else {
-            this.avatarUrl = response.data.url;
-            this.profile.picture = response.data.url;
+            // error handle
+            this.toastr.error("Cannot upload image", 'Error');
         }
     }
 
