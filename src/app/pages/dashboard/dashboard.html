@@ -10,7 +10,7 @@
                             <ba-card *ngIf="f.areas[i]" title="Raised Buttons" baCardClass="with-scroll button-panel">
                                 <div>
                                     <img src="{{f.areas[i].photo}}" alt="" height="50" width="50">
-                                    <a href="#">{{f.areas[i].name}}</a>
+                                    <a href="#" [routerLink]="['/pages/area-detail', f.areas[i].id]">{{f.areas[i].name}}</a>
                                 </div>
                                 <div class="m-t-20" *ngIf="f.areas[i].sensors.length == 0">
                                     <h4>No Sensors</h4>
@@ -42,7 +42,7 @@
                             <ba-card *ngIf="f.areas[i + 1]" title="Raised Buttons" baCardClass="with-scroll button-panel">
                                 <div>
                                     <img src="{{f.areas[i + 1].photo}}" alt="" height="50" width="50">
-                                    <a href="#">{{f.areas[i + 1].name}}</a>
+                                    <a href="#" [routerLink]="['/pages/area-detail', f.areas[i + 1].id]">{{f.areas[i + 1].name}}</a>
                                 </div>
                                 <div class="m-t-20" *ngIf="f.areas[i + 1].sensors.length == 0">
                                     <h4>No Sensors</h4>
@@ -74,7 +74,7 @@
                             <ba-card *ngIf="f.areas[i + 2]" title="Raised Buttons" baCardClass="with-scroll button-panel">
                                 <div>
                                     <img src="{{f.areas[i + 2].photo}}" alt="" height="50" width="50">
-                                    <a href="#">{{f.areas[i + 2].name}}</a>
+                                    <a href="#" [routerLink]="['/pages/area-detail', f.areas[i + 2].id]">{{f.areas[i + 2].name}}</a>
                                 </div>
                                 <div class="m-t-20" *ngIf="f.areas[i + 2].sensors.length == 0">
                                     <h4>No Sensors</h4>
@@ -106,7 +106,7 @@
                             <ba-card *ngIf="f.areas[i + 3]" title="Raised Buttons" baCardClass="with-scroll button-panel">
                                 <div>
                                     <img src="{{f.areas[i + 3].photo}}" alt="" height="50" width="50">
-                                    <a href="#">{{f.areas[i + 3].name}}</a>
+                                    <a href="#" [routerLink]="['/pages/area-detail', f.areas[i + 3].id]">{{f.areas[i + 3].name}}</a>
                                 </div>
                                 <div class="m-t-20" *ngIf="f.areas[i + 3].sensors.length == 0">
                                     <h4>No Sensors</h4>

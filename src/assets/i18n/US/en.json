@@ -46,6 +46,7 @@
       "user": "Users",
       "farm": "Farms",
       "area": "Areas",
+      "area-detail": "Area Detail",
       "sensor": "Sensors"
     },
     "created_with": "Created with"
