@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { AuthService, ProfileService } from '../../services/index';
 
@@ -17,10 +18,8 @@ export class Signup {
   public password: AbstractControl;
   public submitted: boolean = false;
 
-  constructor(fb: FormBuilder,
-    private router: Router,
-    private authService: AuthService,
-    private profileService: ProfileService) {
+  constructor(fb: FormBuilder, private router: Router, private authService: AuthService,
+    private profileService: ProfileService, private toastr: ToastsManager) {
 
     this.form = fb.group({
       'username': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
@@ -34,21 +33,17 @@ export class Signup {
   public onSubmit(values: Object): void {
     this.submitted = true;
     if (this.form.valid) {
-      // call api register an account 
-      // this.authService.signin(this.username.value, this.password.value).subscribe(
-      //   response => {
-      //     this.getProfile();
-      //   });
-    }
-  }
+      let data = {
+        email: this.username.value,
+        password: this.password.value
+      }
 
-  public getProfile(): void {
-    this.profileService.get().subscribe(
-      response => {
-        this.router.navigateByUrl('/dashboard');
-      },
-      error => { },
-      () => { }
-    );
+      // call api register an account 
+      this.authService.signup(data).subscribe(
+        response => {
+          this.toastr.success("Sign up success", 'Success');
+          this.router.navigateByUrl('/login');
+        });
+    }
   }
 }

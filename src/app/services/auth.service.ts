@@ -6,6 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 import { HttpService } from '../core/http.service';
+import { error } from 'util';
 
 /** 
  * ROPC Authentication service. 
@@ -27,6 +28,17 @@ import { HttpService } from '../core/http.service';
         this.headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
         this.options = new RequestOptions({ headers: this.headers });
 
+    }
+
+    public signup(data: any): Observable<any> {
+        return this.http.post(`${this.PREFIX_API}/signup`, data)
+            .map(resp => {
+                const body = resp.json();
+                return body || {};
+            })
+            .catch(error => {
+                return Observable.throw(error.json());
+            });
     }
 
     /** 
