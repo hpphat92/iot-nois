@@ -1,6 +1,7 @@
-<div class="widgets">
-    <div class="row">
+<h1 *ngIf="data && data.length == 0" align="center"> No Farm </h1>
 
+<div class="widgets" *ngIf="data && data.length > 0">
+    <div class="row">
         <div class="col-md-12" *ngFor="let f of data">
             <ba-card cardTitle="{{f.name}}" baCardClass="with-scroll button-panel">
                 <h1 *ngIf="f.areas.length == 0" align="center"> No Area </h1>
