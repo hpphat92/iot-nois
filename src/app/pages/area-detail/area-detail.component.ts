@@ -5,6 +5,7 @@ import { icon, latLng, Layer, marker, tileLayer, Map } from 'leaflet';
 import { HubConnection } from "@aspnet/signalr-client";
 
 import { AreaService, HubService, SensorService } from '../../services/index';
+import { THROW_IF_NOT_FOUND } from '@angular/core/src/di/injector';
 
 @Component({
   selector: 'area-detail',
@@ -14,6 +15,7 @@ import { AreaService, HubService, SensorService } from '../../services/index';
 export class AreaDetail {
 
   private areaId: string;
+  private types: any;
   private map: Map;
   private devices: any[];
   // Open Street Map definitions
@@ -31,6 +33,7 @@ export class AreaDetail {
   private chartData: any[];
   private oldChartData: any[];
   private hubConnection: HubConnection;
+  private sensors: any;
 
   constructor(private route: ActivatedRoute, private _areaService: AreaService,
     private _hubService: HubService, private _elementRef: ElementRef, private _sensorService: SensorService) {
@@ -42,42 +45,25 @@ export class AreaDetail {
       this.areaId = params['id'];
     });
 
+    this.getSensorType();
+
     this.chartData = [];
     this._areaService.getById(this.areaId).subscribe(resp => {
-
+      // this.sensors = resp.data.sensors || [];
       // for production
       // this.devices = resp.data.sensors || [];
 
       // for test
       this.devices = [
-        { id: "sensorid1", name: "Sensor 1", locationX: 41.38549, locationY: 2.183442 },
-        { id: "sensor2", name: "Sensor 2", locationX: 41.31462, locationY: 2.12851 },
-        { id: "sensor3", name: "Sensor 3", locationX: 41.34246, locationY: 2.060189 },
-        { id: "sensor4", name: "Sensor 4", locationX: 41.42747, locationY: 2.107911 },
-        { id: "sensor5", name: "Sensor 5", locationX: 41.43699, locationY: 2.180008 },
-      ]
+        { id: "sensorid1", name: "Sensor 1", locationX: 41.38549, locationY: 2.183442, sensorType: { id: 0, name: 'Temperature (Nhiet Do)' } },
+        { id: "sensor2", name: "Sensor 2", locationX: 41.31462, locationY: 2.12851, sensorType: { id: 0, name: 'Temperature (Nhiet Do)' } },
+        { id: "sensor3", name: "Sensor 3", locationX: 41.34246, locationY: 2.060189, sensorType: { id: 1, name: 'Humidity (Do Am)' } },
+        { id: "sensor4", name: "Sensor 4", locationX: 41.42747, locationY: 2.107911, sensorType: { id: 1, name: 'Humidity (Do Am)' } },
+        { id: "sensor5", name: "Sensor 5", locationX: 41.43699, locationY: 2.180008, sensorType: { id: 2, name: 'Air Pollution (O Nhiem Khong Khi)' } },
+      ];
+      this.sensors = this.devices;
 
-      this.devices.forEach((item, i) => {
-        let newMarker = marker(
-          [item.locationX, item.locationY],
-          {
-            icon: icon({
-              iconSize: [25, 41],
-              iconAnchor: [13, 41],
-              iconUrl: '../../../assets/img/antena_azul.png',
-              shadowUrl: '../../../assets/img/marker-shadow.png'
-            })
-          }
-        ).on('click', () => {
-          this.interval && clearInterval(this.interval);
-          this.chartActived = true;
-          window.dispatchEvent(new Event('resize'));
-          setTimeout(() => {
-            this._bindGPUCharts(item.id);
-          });
-        });
-        this.markers.push(newMarker);
-      });
+      this.makeMaker(this.devices);
 
       this.chartActived = true;
       window.dispatchEvent(new Event('resize'));
@@ -86,6 +72,36 @@ export class AreaDetail {
       });
 
       this.listenSignalR();
+    });
+  }
+
+  private getSensorType() {
+    this._sensorService.getTypes().subscribe(typeResp => {
+      this.types = typeResp.data;
+    });
+  }
+
+  private makeMaker(sensors: any) {
+    sensors.forEach((item, i) => {
+      let newMarker = marker(
+        [item.locationX, item.locationY],
+        {
+          icon: icon({
+            iconSize: [25, 41],
+            iconAnchor: [13, 41],
+            iconUrl: '../../../assets/img/antena_azul.png',
+            shadowUrl: '../../../assets/img/marker-shadow.png'
+          })
+        }
+      ).on('click', () => {
+        this.interval && clearInterval(this.interval);
+        this.chartActived = true;
+        window.dispatchEvent(new Event('resize'));
+        setTimeout(() => {
+          this._bindGPUCharts(item.id);
+        });
+      });
+      this.markers.push(newMarker);
     });
   }
 
@@ -205,5 +221,19 @@ export class AreaDetail {
     this.chartActived = false;
     this.interval && clearInterval(this.interval);
     window.dispatchEvent(new Event('resize'));
+  }
+
+  onChange(sensorType) {
+    if (sensorType == -1) {
+      this.devices = this.sensors;
+    }
+    else {
+      this.devices = this.sensors.filter(obj => {
+        return obj.sensorType.id == sensorType;
+      });
+    }
+
+    this.markers = [];
+    this.makeMaker(this.devices);
   }
 }
