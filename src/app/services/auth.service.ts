@@ -143,8 +143,8 @@ import { error } from 'util';
             });
     }
 
-    public forgotPassword(model: any) {
-        return this.http.post(`${this.PREFIX_API}/forgot-password`, JSON.stringify(model), null, true)
+    public forgotPassword(model: any, step: string, showNotify: boolean) {
+        return this.http.post(`${this.PREFIX_API}/forgot-password/${step}`, JSON.stringify(model), null, showNotify)
             .catch((error: any) => {
                 // Error on post request.  
                 return Observable.throw(error);

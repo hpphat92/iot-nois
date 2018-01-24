@@ -18,7 +18,6 @@ import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { CoreModule } from './core/core.module';
 import { AuthGuard, AuthService, UserService, ProfileService, Util, FarmService, AreaService, SensorService, DashboardService, HubService } from './services/index';
-
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,

@@ -17,9 +17,15 @@
   "forgotpassword": {
     "lblSignin": "Sign in",
     "lblEmail": "Email",
+    "lblCode": "Code",
+    "lblNewPassword": "New Password",
     "examEmail": "example@domain.com",
+    "examCode": "12345",
+    "examPassword": "Password",
     "lblForgot": "Forgot Password",
     "emailReq": "Email is required",
+    "codeReq": "Code is required",
+    "newPasswordReq": "New password is required",
     "submitValue": "Submit"
   },
   "resetppassword": {
