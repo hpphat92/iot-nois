@@ -49,7 +49,7 @@
                         <div class="row form-group">
                             <h3 *ngIf="farm.areas.length == 0" align="center">No Data</h3>
                             <div class="table-responsive">
-                                <table *ngIf="farm.areas.length > 0" class="table" [mfData]="farm.areas" #mf="mfDataTable" [mfRowsOnPage]="5">
+                                <!-- <table *ngIf="farm.areas.length > 0" class="table" [mfData]="farm.areas" #mf="mfDataTable" [mfRowsOnPage]="5">
                                     <thead>
                                         <tr>
                                             <th style="width: 20%">
@@ -63,9 +63,27 @@
                                     <tbody>
                                         <tr *ngFor="let area of mf.data">
                                             <td align="center">
-                                                <img class="area-image" src="{{area.photo}}" alt="{{area.name}}">
+                                                <img class="area-image" src="{{area.photo}}">
                                             </td>
                                             <td>{{area.name}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table> -->
+                                <table *ngIf="farm.sensors.length > 0" class="table" [mfData]="farm.sensors" #mf="mfDataTable" [mfRowsOnPage]="5">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 50%">
+                                                <mfDefaultSorter by="name">Sensor</mfDefaultSorter>
+                                            </th>
+                                            <th style="width: 50%">
+                                                <mfDefaultSorter by="email">Average Value</mfDefaultSorter>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let sensor of mf.data">
+                                            <td>{{sensor.name}}</td>
+                                            <td>{{sensor.argValue}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
