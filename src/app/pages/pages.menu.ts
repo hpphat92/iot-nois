@@ -41,20 +41,21 @@ export const PAGES_MENU = [
           }
         }
       },
-      // {
-      //   path: 'area-detail/:id',
-      //   data: {
-      //     menu: {
-      //       title: 'general.menu.area-detail',
-      //       icon: 'ion-android-home',
-      //       hidden:true,
-      //       selected: false,
-      //       expanded: false,
-      //       order: 0,
-      //       roles: ['Admin']
-      //     }
-      //   }
-      // },
+      {
+        path: 'area-detail/:id',
+        data: {
+          menu: {
+            title: 'general.menu.area-detail',
+            icon: 'ion-android-home',
+            hidden:true,
+            pathMatch: 'prefix',
+            selected: false,
+            expanded: false,
+            order: 0,
+            // roles: ['Admin']
+          }
+        }
+      },
       {
         path: 'sensors',
         data: {

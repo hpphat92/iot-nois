@@ -1,8 +1,9 @@
 import { Component, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import * as moment from "moment";
 import { icon, latLng, Layer, marker, tileLayer, Map } from 'leaflet';
 import { HubConnection } from "@aspnet/signalr-client";
+import { GlobalState } from '../../global.state';
 
 import { AreaService, HubService, SensorService } from '../../services/index';
 import { THROW_IF_NOT_FOUND } from '@angular/core/src/di/injector';
@@ -15,6 +16,7 @@ import { THROW_IF_NOT_FOUND } from '@angular/core/src/di/injector';
 export class AreaDetail {
 
   private areaId: string;
+  private area: any;
   private types: any;
   private map: Map;
   private devices: any[];
@@ -29,13 +31,13 @@ export class AreaDetail {
   private markers: Layer[] = [];
   private interval: any;
   private chartActived: boolean = false;
-  private chart = { name: "", chartData: [], options: undefined, g: undefined, temp: 0, accel: 0, active: true };
+  private chart = { name: "", chartData: [], options: undefined, g: undefined, value: 0, active: true };
   private chartData: any[];
   private oldChartData: any[];
   private hubConnection: HubConnection;
   private sensors: any;
 
-  constructor(private route: ActivatedRoute, private _areaService: AreaService,
+  constructor(private route: ActivatedRoute, private _areaService: AreaService, private state: GlobalState,
     private _hubService: HubService, private _elementRef: ElementRef, private _sensorService: SensorService) {
   }
 
@@ -49,6 +51,8 @@ export class AreaDetail {
 
     this.chartData = [];
     this._areaService.getById(this.areaId).subscribe(resp => {
+      this.state.notifyDataChanged('menu.activeLink', { title: "Area Detail" });
+      this.area = resp.data;
       // this.sensors = resp.data.sensors || [];
       // for production
       // this.devices = resp.data.sensors || [];
@@ -156,11 +160,19 @@ export class AreaDetail {
       return html;
     }
     let time = Date();
-    this.chart.name = this.devices && this.devices[i] && this.devices[i].name || "";
-    this.chart.accel = this.chartData && this.chartData[i] && this.chartData[i].accel || 0;
-    this.chart.temp = this.chartData && this.chartData[i] && this.chartData[i].temp || 0;
+    var sensor = this.sensors.find(function (obj) {
+      return obj.id == i;
+    });
+    // this.chart.name = this.devices && this.devices[i] && this.devices[i].name || "";
+    this.chart.name = sensor && sensor.name || "";
+    // this.chart.value = this.chartData && this.chartData[i] && this.chartData[i].value || 0;
+    this.chart.value = sensor && sensor.value || 0;
+    // this.chart.temp = this.chartData && this.chartData[i] && this.chartData[i].temp || 0;
+    // this.chart.chartData = [
+    //   [new Date(), this.chart.temp, this.chart.value]
+    // ];
     this.chart.chartData = [
-      [new Date(), this.chart.temp, this.chart.accel]
+      [new Date(), this.chart.value]
     ];
     this.chart.options = {
       dateWindow: [Date.now() - 120000,
@@ -168,23 +180,18 @@ export class AreaDetail {
       showRoller: false,
       drawPoints: true,
       legend: 'always',
-      labels: ['Time', 'Temperature', 'Accelerometer'],
+      // labels: ['Time', 'Accelerometer'],
+      labels: ['Time', sensor.sensorType.name],
       labelsDiv: this._elementRef.nativeElement.querySelector(".chart-legend"),
       legendFormatter,
       series: {
-        'Accelerometer': { axis: 'y2' },
+        'Accelerometer': { axis: 'y' },
       },
       axes: {
         y: {
-          valueRange: [0, 200],
+          valueRange: [0, 50],
           axisLabelFormatter: function (y) {
             return y + '°C';
-          },
-        },
-        y2: {
-          valueRange: [0, 200],
-          axisLabelFormatter: function (y) {
-            return y + 'm/s';
           },
         }
       }
@@ -193,9 +200,10 @@ export class AreaDetail {
       this.chart.options);
 
     this.interval = setInterval(() => {
-      this.chart.accel = this.chartData && this.chartData[i] && this.chartData[i].accel || 0;
-      this.chart.temp = this.chartData && this.chartData[i] && this.chartData[i].temp || 0;
-      this.chart.chartData.push([new Date(), this.chart.temp, this.chart.accel]);
+      this.chart.value = this.chartData && this.chartData[i] && this.chartData[i].value || 0;
+      // this.chart.temp = this.chartData && this.chartData[i] && this.chartData[i].temp || 0;
+      this.chart.chartData.push([new Date(), this.chart.value]);
+      // this.chart.chartData.push([new Date(), this.chart.temp, this.chart.value]);
       this.chart.g.updateOptions({ 'file': this.chart.chartData });
       this.chart.options.dateWindow[0] += 500;
       this.chart.options.dateWindow[1] += 500;
@@ -212,7 +220,7 @@ export class AreaDetail {
 
     this._sensorService.getTimeData(id, data).subscribe(resp => {
       this.oldChartData = resp.data;
-      this.oldChartData = this.oldChartData.map(item => [new Date(item[0]), item[1], item[2]]);
+      this.oldChartData = this.oldChartData.map(item => [new Date(item[0]), item[1]]);
       this.chart.chartData = [...this.oldChartData, ...this.chart.chartData];
     });
   }
