@@ -73,7 +73,7 @@
 </div>
 
 <div *ngIf="data?.sensors?.length" class="col-md-12 m-t-20">
-    <table class="table table-bordered table-hover table-condensed" [mfData]="data.sensors" #mf="mfDataTable" [mfRowsOnPage]="5">
+    <table class="table table-bordered table-hover table-condensed" [mfData]="data.sensors" #mf="mfDataTable" [mfRowsOnPage]="pagingInfo.pageSize">
         <thead>
             <tr>
                 <th style="width: 12%">

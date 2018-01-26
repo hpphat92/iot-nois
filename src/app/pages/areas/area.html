@@ -57,7 +57,7 @@
 </div>
 
 <div *ngIf="data?.areas?.length" class="col-md-12  m-t-20">
-    <table class="table table-bordered table-hover table-condensed" [mfData]="data.areas" #mf="mfDataTable" [mfRowsOnPage]="5">
+    <table class="table table-bordered table-hover table-condensed" [mfData]="data.areas" #mf="mfDataTable" [mfRowsOnPage]="pagingInfo.pageSize">
         <thead>
             <tr>
                 <th style="width: 30%">

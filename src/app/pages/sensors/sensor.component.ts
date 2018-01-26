@@ -70,6 +70,7 @@ export class Sensor {
     let params = this._util.objectToURLSearchParams(obj);
     this._sensorService.search(params).subscribe(resp => {
       this.data = resp.data;
+      console.log(this.data);
     });
   }
 

@@ -26,7 +26,8 @@ export class AreaDetail {
   private options = {
     layers: [this.LAYER_OSM],
     zoom: 10,
-    center: latLng(46.879966, -121.726909)
+    center: latLng(0, 0)
+    // center: latLng(46.879966, -121.726909)
   };
   private markers: Layer[] = [];
   private interval: any;
@@ -53,21 +54,9 @@ export class AreaDetail {
     this._areaService.getById(this.areaId).subscribe(resp => {
       this.state.notifyDataChanged('menu.activeLink', { title: "Area Detail" });
       this.area = resp.data;
-      // this.sensors = resp.data.sensors || [];
-      // for production
-      // this.devices = resp.data.sensors || [];
-
-      // for test
-      this.devices = [
-        { id: "sensorid1", name: "Sensor 1", locationX: 41.38549, locationY: 2.183442, sensorType: { id: 0, name: 'Temperature (Nhiet Do)' } },
-        { id: "sensor2", name: "Sensor 2", locationX: 41.31462, locationY: 2.12851, sensorType: { id: 0, name: 'Temperature (Nhiet Do)' } },
-        { id: "sensor3", name: "Sensor 3", locationX: 41.34246, locationY: 2.060189, sensorType: { id: 1, name: 'Humidity (Do Am)' } },
-        { id: "sensor4", name: "Sensor 4", locationX: 41.42747, locationY: 2.107911, sensorType: { id: 1, name: 'Humidity (Do Am)' } },
-        { id: "sensor5", name: "Sensor 5", locationX: 41.43699, locationY: 2.180008, sensorType: { id: 2, name: 'Air Pollution (O Nhiem Khong Khi)' } },
-      ];
-      this.sensors = this.devices;
-
-      this.makeMaker(this.devices);
+      this.sensors = resp.data.sensors || [];
+      this.devices = resp.data.sensors || [];
+      this.makeMaker(this.sensors);
 
       this.chartActived = true;
       window.dispatchEvent(new Event('resize'));
@@ -122,16 +111,14 @@ export class AreaDetail {
       map.panTo([this.devices[0].locationX, this.devices[0].locationY]);
     } else {
       this._areaService.getById(this.areaId).subscribe(resp => {
-
-        // for test
-        map.panTo([41.38549, 2.183442]);
-        map.setZoom(11);
-
         // for production
-        // if (resp.data.sensors.length > 0) {
-        //   map.panTo([resp.data.sensors[0].locationX, resp.data.sensors[0].locationY]);
-        //   map.setZoom(11);
-        // }
+        if (resp.data.sensors.length > 0) {
+          var maxLocX = Math.max.apply(Math, resp.data.sensors.map(function (o) { return o.locationX; }));
+          var maxLocY = Math.max.apply(Math, resp.data.sensors.map(function (o) { return o.locationY; }));
+          // for test
+          map.panTo([maxLocX, maxLocY]);
+          map.setZoom(9);
+        }
       });
     }
   }
@@ -163,24 +150,16 @@ export class AreaDetail {
     var sensor = this.sensors.find(function (obj) {
       return obj.id == i;
     });
-    // this.chart.name = this.devices && this.devices[i] && this.devices[i].name || "";
     this.chart.name = sensor && sensor.name || "";
-    // this.chart.value = this.chartData && this.chartData[i] && this.chartData[i].value || 0;
     this.chart.value = sensor && sensor.value || 0;
-    // this.chart.temp = this.chartData && this.chartData[i] && this.chartData[i].temp || 0;
-    // this.chart.chartData = [
-    //   [new Date(), this.chart.temp, this.chart.value]
-    // ];
     this.chart.chartData = [
       [new Date(), this.chart.value]
     ];
     this.chart.options = {
-      dateWindow: [Date.now() - 120000,
-      Date.now()],
+      dateWindow: [Date.now() - 120000, Date.now()],
       showRoller: false,
       drawPoints: true,
       legend: 'always',
-      // labels: ['Time', 'Accelerometer'],
       labels: ['Time', sensor.sensorType.name],
       labelsDiv: this._elementRef.nativeElement.querySelector(".chart-legend"),
       legendFormatter,
@@ -196,19 +175,16 @@ export class AreaDetail {
         }
       }
     };
-    this.chart.g = new (window as any).Dygraph(this._elementRef.nativeElement.querySelector(".chart-area"), this.chart.chartData,
-      this.chart.options);
+    this.chart.g = new (window as any).Dygraph(this._elementRef.nativeElement.querySelector(".chart-area"), this.chart.chartData, this.chart.options);
 
     this.interval = setInterval(() => {
       this.chart.value = this.chartData && this.chartData[i] && this.chartData[i].value || 0;
-      // this.chart.temp = this.chartData && this.chartData[i] && this.chartData[i].temp || 0;
       this.chart.chartData.push([new Date(), this.chart.value]);
-      // this.chart.chartData.push([new Date(), this.chart.temp, this.chart.value]);
       this.chart.g.updateOptions({ 'file': this.chart.chartData });
       this.chart.options.dateWindow[0] += 500;
       this.chart.options.dateWindow[1] += 500;
       this.chart.g.updateOptions({ 'dateWindow': this.chart.options.dateWindow });
-    }, 500);
+    }, 1000);
 
     this.getData(i, time);
   }

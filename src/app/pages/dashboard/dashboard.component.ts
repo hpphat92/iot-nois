@@ -18,6 +18,7 @@ export class Dashboard {
   public ngOnInit(): void {
     this._dashboardService.getDashboard().subscribe(resp => {
       this.data = resp.data;
+      console.log(this.data);
     });
   }
 
