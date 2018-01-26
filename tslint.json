@@ -101,7 +101,7 @@
     "no-invalid-template-strings": true,
     "prefer-template": true,
     "no-unnecessary-callback-wrapper": true,
-    "member-access": [true],
+    "member-access": [],
     "no-empty-interface": true,
     "no-reference": true,
     "prefer-for-of": true,

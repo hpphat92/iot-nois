@@ -9,7 +9,7 @@ import {
   Request,
   Headers,
   XHRBackend,
-  QueryEncoder
+  QueryEncoder,
 } from '@angular/http';
 import { Router } from '@angular/router';
 import { AngularReduxRequestOptions } from './angular-redux-request.options';
@@ -24,11 +24,11 @@ export class HttpService extends Http {
               defaultOptions: AngularReduxRequestOptions,
               private slimLoadingBarService: SlimLoadingBarService,
               private toastr: ToastsManager,
-              private router: Router,) {
+              private router: Router) {
     super(backend, defaultOptions);
   }
 
-  get(url: string, options?: RequestOptionsArgs, showNotify?: boolean): Observable<any> {
+  public get(url: string, options?: RequestOptionsArgs, showNotify?: boolean): Observable<any> {
     this.showLoader();
 
     return super.get(this.getFullUrl(url), this.requestOptions(options))
@@ -44,7 +44,7 @@ export class HttpService extends Http {
 
   }
 
-  post(url: string, body: any, options?: RequestOptionsArgs, showNotify?: boolean): Observable<any> {
+  public post(url: string, body: any, options?: RequestOptionsArgs, showNotify?: boolean): Observable<any> {
     this.showLoader();
     return super.post(this.getFullUrl(url), body, this.requestOptions(options))
       .catch(this.onCatch)
@@ -59,7 +59,7 @@ export class HttpService extends Http {
 
   }
 
-  put(url: string, body: any, options?: RequestOptionsArgs, showNotify?: boolean): Observable<any> {
+  public put(url: string, body: any, options?: RequestOptionsArgs, showNotify?: boolean): Observable<any> {
     this.showLoader();
     return super.put(this.getFullUrl(url), body, this.requestOptions(options))
       .catch(this.onCatch)
@@ -74,7 +74,7 @@ export class HttpService extends Http {
 
   }
 
-  delete(url: string, options?: RequestOptionsArgs, showNotify?: boolean): Observable<any> {
+  public delete(url: string, options?: RequestOptionsArgs, showNotify?: boolean): Observable<any> {
     this.showLoader();
     return super.delete(this.getFullUrl(url), this.requestOptions(options))
       .catch(this.onCatch)
@@ -94,12 +94,12 @@ export class HttpService extends Http {
   }
 
   private requestOptions(options?: RequestOptionsArgs): RequestOptionsArgs {
-    // if (options == null) {
+    // if (options === null) {
     //     options = new AngularReduxRequestOptions(options);
     // }
 
     options = new AngularReduxRequestOptions(options);
-    if (options.headers == null) {
+    if (options.headers === null) {
       options.headers = new Headers();
     }
 
@@ -115,22 +115,22 @@ export class HttpService extends Http {
   }
 
   private onSuccess(res: Response, showNotify?: boolean): void {
-    if (showNotify && res.status == 200 || res.status == 201) {
+    if (showNotify && res.status === 200 || res.status === 201) {
       const body = JSON.parse(res.text());
       this.toastr.success(body.message, 'Success');
     }
   }
 
   private onError(res: Response, showNotify?: boolean): void {
-    if (res.status == 0) {
+    if (res.status === 0) {
       this.toastr.error('Cannot connect to server', 'Error');
-    } else if (res.status == 400 || res.status == 404) {
+    } else if (res.status === 400 || res.status === 404) {
       const body = JSON.parse(res.text());
       this.toastr.error(body.message, 'Error');
-    } else if (res.status == 401) {
+    } else if (res.status === 401) {
       this.toastr.error('Must login', 'Error');
       this.signout();
-    } else if (res.status == 500) {
+    } else if (res.status === 500) {
       const body = JSON.parse(res.text());
       this.toastr.error(body.message, 'Error');
     }
@@ -150,11 +150,11 @@ export class HttpService extends Http {
 }
 
 export class MyQueryEncoder extends QueryEncoder {
-  encodeKey(k: string): string {
+  public encodeKey(k: string): string {
     return encodeURIComponent(k);
   }
 
-  encodeValue(v: string): string {
+  public encodeValue(v: string): string {
     return encodeURIComponent(v);
   }
 }
