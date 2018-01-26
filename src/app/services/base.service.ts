@@ -1,7 +1,4 @@
-import { Injectable } from "@angular/core";
-import { URLSearchParams } from "@angular/http";
-
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 import { HttpService } from '../core/http.service';
 
 export class BaseService {

@@ -6,10 +6,10 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 
 import { HttpService } from '../core/http.service';
-import { BaseService } from "./base.service";
+import { BaseService } from './base.service';
 
-/** 
- * ROPC Sensor service. 
+/**
+ * ROPC Sensor service.
  */
 @Injectable() export class SensorService extends BaseService {
 
@@ -41,4 +41,4 @@ import { BaseService } from "./base.service";
             .map(this.extractData)
             .catch(this.handleError);
     }
-}  
+}

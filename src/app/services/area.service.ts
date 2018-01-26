@@ -6,10 +6,10 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/of';
 
 import { HttpService } from '../core/http.service';
-import { BaseService } from "./base.service";
+import { BaseService } from './base.service';
 
-/** 
- * ROPC Farm service. 
+/**
+ * ROPC Farm service.
  */
 @Injectable() export class AreaService extends BaseService {
 
@@ -20,7 +20,7 @@ import { BaseService } from "./base.service";
 
     /**
      * search areas
-     * @param params 
+     * @param params
      */
     public search(params: URLSearchParams): Observable<any> {
         return this.http.get(`${this.path}`, { search: params })
@@ -30,11 +30,11 @@ import { BaseService } from "./base.service";
 
     /**
      * search areas
-     * @param params 
+     * @param farmId
      */
     public getByFarm(farmId: string): Observable<any> {
         return this.http.get(`${this.path}/by-farms/${farmId}`)
             .map(this.extractData)
             .catch(this.handleError);
     }
-}  
+}
