@@ -6,6 +6,7 @@ import { PAGES_MENU } from './pages.menu';
 
 @Component({
   selector: 'pages',
+  styleUrls: ['./pages.component.scss'],
   template: `
     <ba-sidebar></ba-sidebar>
     <ba-page-top></ba-page-top>
@@ -16,11 +17,11 @@ import { PAGES_MENU } from './pages.menu';
       </div>
     </div>
     <ba-back-top position="200"></ba-back-top>
-    `
+  `
 })
 export class Pages {
 
-  constructor(private _menuService: BaMenuService, ) {
+  constructor(private _menuService: BaMenuService,) {
   }
 
   ngOnInit() {

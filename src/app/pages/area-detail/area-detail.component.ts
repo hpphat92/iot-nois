@@ -22,6 +22,7 @@ export class AreaDetail {
   private area: any;
   private types: any;
   private overlay: any;
+  private selectedSensor: any = null;
   private map: L.Map;
   private devices: any[];
   // Open Street Map definitions
@@ -66,6 +67,11 @@ export class AreaDetail {
     });
   }
 
+  private onChangeSensorTypeFilter(selectedSensor) {
+    this.selectedSensor = selectedSensor;
+    this.filterSensors();
+  }
+
   private getFarmData() {
     this._farmService.getAll().subscribe(farmResp => {
       this.farms = farmResp.data;
@@ -74,43 +80,45 @@ export class AreaDetail {
 
   private makeMaker(sensors: any) {
     sensors.forEach((item, i) => {
-      const newMarker = L.marker(
-        [-item.locationY, item.locationX],
-        <any>{
-          icon: L.icon({
-            iconSize: [25, 41],
-            iconAnchor: [13, 41],
-            iconUrl: '../../../assets/img/antena_azul.png',
-            shadowUrl: '../../../assets/img/marker-shadow.png',
-          }),
-          draggable: true,
-          contextmenu: true,
-          contextmenuInheritItems: false,
-          contextmenuItems: [{
-            text: 'Edit Sensor',
-            callback: (e) => {
-              this.showModalEditSensor(e, item.id);
-            },
-          }, {
-            text: 'Delete Sensor',
-            callback: () => {
-              this.deleteSensor(item.id);
-            },
-          }]
-        },
-      )
-        .bindPopup(`<div class="popup-name">${item.name} <em>${item.id}</em></div><div class="popup-name">${item.sensorType.name}</div>`)
-        .on('click', (e) => {
-          newMarker.openPopup();
-        })
-        .on('dragend', (e: any) => {
-          const {lat, lng} = e.target.getLatLng();
-          item.locationY = -lat;
-          item.locationX = lng;
-          this.updateSensor(item);
-        });
-      this.markers.push(newMarker);
-      this.map.addLayer(newMarker);
+      if (!this.selectedSensor || +this.selectedSensor === item.sensorType.id) {
+        const newMarker = L.marker(
+          [-item.locationY, item.locationX],
+          <any>{
+            icon: L.icon({
+              iconSize: [25, 41],
+              iconAnchor: [13, 41],
+              iconUrl: '../../../assets/img/antena_azul.png',
+              shadowUrl: '../../../assets/img/marker-shadow.png',
+            }),
+            draggable: true,
+            contextmenu: true,
+            contextmenuInheritItems: false,
+            contextmenuItems: [{
+              text: 'Edit Sensor',
+              callback: (e) => {
+                this.showModalEditSensor(item.id);
+              },
+            }, {
+              text: 'Delete Sensor',
+              callback: () => {
+                this.deleteSensor(item.id);
+              },
+            }]
+          },
+        )
+          .bindPopup(`<div class="popup-name">${item.name} <em>${item.id}</em></div><div class="popup-name">${item.sensorType.name}</div>`)
+          .on('click', (e) => {
+            newMarker.openPopup();
+          })
+          .on('dragend', (e: any) => {
+            const {lat, lng} = e.target.getLatLng();
+            item.locationY = -lat;
+            item.locationX = lng;
+            this.updateSensor(item);
+          });
+        this.markers.push(newMarker);
+        this.map.addLayer(newMarker);
+      }
     });
   }
 
@@ -169,11 +177,20 @@ export class AreaDetail {
 
   }
 
-  private refreshData() {
+  private filterSensors() {
+    this.clearMarkers();
+    this.makeMaker(this.area.sensors);
+  }
+
+  private clearMarkers() {
     this.markers.forEach((marker) => {
       this.map.removeLayer(marker);
     });
     this.markers = [];
+  }
+
+  private refreshData() {
+    this.clearMarkers();
     this._areaService.getById(this.areaId).subscribe(resp => {
       this.area = resp.data;
       this.makeMaker(this.area.sensors);
@@ -191,8 +208,8 @@ export class AreaDetail {
     });
     modalRef.componentInstance.title = "Add New Sensor";
     modalRef.componentInstance.initialData = {
-      locationX: e.latlng.lng,
-      locationY: -e.latlng.lat,
+      locationX: e ? e.latlng.lng: 0,
+      locationY: e ? e.latlng.lat: 0,
       farmId: this.area.farmId,
       areaId: this.area.id,
     };
@@ -208,10 +225,9 @@ export class AreaDetail {
 
   /**
    * Show modal edit sensor
-   * @param e
    * @param id
    */
-  public showModalEditSensor(e, id: string): void {
+  public showModalEditSensor(id: string): void {
     this._sensorService.getById(id).subscribe(sensorResp => {
       let modalRef = this._modalService.open(CreateOrUpdateSensorComponent, {
         backdrop: 'static',
