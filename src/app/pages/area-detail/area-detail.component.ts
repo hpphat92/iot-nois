@@ -38,9 +38,7 @@ export class AreaDetail {
   };
   private markers: L.Layer[] = [];
   private interval: any;
-  private chartActived: boolean = false;
   private farms: any[];
-  private chartData: any[];
   private hubConnection: HubConnection;
 
   constructor(private route: ActivatedRoute, private _areaService: AreaService, private state: GlobalState,
@@ -55,11 +53,9 @@ export class AreaDetail {
 
     this.getSensorType();
     this.getFarmData();
-    this.chartData = [];
     this._areaService.getById(this.areaId).subscribe(resp => {
       this.state.notifyDataChanged('menu.activeLink', {title: 'Area Detail'});
       this.area = resp.data;
-      this.chartActived = true;
       this.initMap(resp.data.photo);
     });
   }
@@ -92,8 +88,8 @@ export class AreaDetail {
           contextmenuInheritItems: false,
           contextmenuItems: [{
             text: 'Edit Sensor',
-            callback: () => {
-              this.showModalEditSensor(item.id);
+            callback: (e) => {
+              this.showModalEditSensor(e, item.id);
             },
           }, {
             text: 'Delete Sensor',
@@ -156,8 +152,8 @@ export class AreaDetail {
           contextmenuWidth: 140,
           contextmenuItems: [{
             text: 'Add Sensor',
-            callback: () => {
-              this.showModalAddSensor();
+            callback: (e) => {
+              this.showModalAddSensor(e);
             }
           }]
         },
@@ -174,19 +170,32 @@ export class AreaDetail {
   }
 
   private refreshData() {
-    debugger;
+    this.markers.forEach((marker) => {
+      this.map.removeLayer(marker);
+    });
+    this.markers = [];
+    this._areaService.getById(this.areaId).subscribe(resp => {
+      this.area = resp.data;
+      this.makeMaker(this.area.sensors);
+    });
   }
 
   /**
    * Show modal add sensor
    */
-  public showModalAddSensor() {
+  public showModalAddSensor(e) {
     let modalRef = this._modalService.open(CreateOrUpdateSensorComponent, {
       backdrop: 'static',
       size: 'lg',
       keyboard: false
     });
     modalRef.componentInstance.title = "Add New Sensor";
+    modalRef.componentInstance.initialData = {
+      locationX: e.latlng.lng,
+      locationY: -e.latlng.lat,
+      farmId: this.area.farmId,
+      areaId: this.area.id,
+    };
     modalRef.componentInstance.farms = this.farms;
     modalRef.componentInstance.types = this.types;
     modalRef.result.then(data => {
@@ -199,9 +208,10 @@ export class AreaDetail {
 
   /**
    * Show modal edit sensor
+   * @param e
    * @param id
    */
-  public showModalEditSensor(id: string): void {
+  public showModalEditSensor(e, id: string): void {
     this._sensorService.getById(id).subscribe(sensorResp => {
       let modalRef = this._modalService.open(CreateOrUpdateSensorComponent, {
         backdrop: 'static',

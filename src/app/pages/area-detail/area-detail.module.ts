@@ -21,7 +21,8 @@ import { CreateOrUpdateSensorComponent } from "../sensors/create-or-update/creat
   declarations: [
     AreaDetail,
   ],
-  providers: [
-  ],
+  providers: [],
+  entryComponents: [],
 })
-export class AreaDetailModule { }
+export class AreaDetailModule {
+}

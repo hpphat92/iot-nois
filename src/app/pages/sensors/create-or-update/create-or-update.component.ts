@@ -9,116 +9,129 @@ import { AppSetting } from '../../../app.setting';
 import { debounce } from 'rxjs/operator/debounce';
 
 @Component({
-    selector: 'create-or-update-farm',
-    styleUrls: [('./create-or-update.component.scss')],
-    templateUrl: './create-or-update.component.html'
+  selector: 'create-or-update-farm',
+  styleUrls: [('./create-or-update.component.scss')],
+  templateUrl: './create-or-update.component.html'
 })
 
 export class CreateOrUpdateSensorComponent implements OnInit {
 
-    @ViewChild('mytab')
-    mytab: NgbTabset
+  @ViewChild('mytab')
+  mytab: NgbTabset
 
-    public title: string;
-    public sensor: any;
-    public farms: any[];
-    public areas: any[];
-    public types: any[];
+  public title: string;
+  public sensor: any;
+  public farms: any[];
+  public areas: any[];
+  public types: any[];
+  public initialData: any = {};
 
-    private frm: FormGroup;
-    private id: AbstractControl;
-    private name: AbstractControl;
-    private farmId: AbstractControl;
-    private areaId: AbstractControl;
-    private sensorType: AbstractControl;
-    private locationX: AbstractControl;
-    private locationY: AbstractControl;
+  private frm: FormGroup;
+  private id: AbstractControl;
+  private name: AbstractControl;
+  private farmId: AbstractControl;
+  private areaId: AbstractControl;
+  private sensorType: AbstractControl;
+  private locationX: AbstractControl;
+  private locationY: AbstractControl;
 
-    constructor(private _fb: FormBuilder, private activeModal: NgbActiveModal,
-        private _areaService: AreaService, private _sensorService: SensorService) {
+  constructor(private _fb: FormBuilder, private activeModal: NgbActiveModal,
+              private _areaService: AreaService, private _sensorService: SensorService) {
 
+  }
+
+  ngOnInit() {
+    this.initialData = this.initialData || {};
+    this.frm = this._fb.group({
+      id: ['', Validators.required],
+      name: ['', Validators.required],
+      sensorType: ['', Validators.required],
+      farmId: [''],
+      areaId: [{value: '', disabled: true}],
+      locationX: [{value: this.initialData.locationX || 0, disabled: true}],
+      locationY: [{value: this.initialData.locationY || 0, disabled: true}],
+    });
+    this.id = this.frm.controls['id'];
+    this.name = this.frm.controls['name'];
+    this.sensorType = this.frm.controls['sensorType'];
+    this.farmId = this.frm.controls['farmId'];
+    this.areaId = this.frm.controls['areaId'];
+    this.locationX = this.frm.controls['locationX'];
+    this.locationY = this.frm.controls['locationY'];
+
+    if (this.initialData.farmId) {
+      this.frm.patchValue(this.initialData);
     }
-
-    ngOnInit() {
-        this.frm = this._fb.group({
-            id: ['', Validators.required],
-            name: ['', Validators.required],
-            sensorType: ['', Validators.required],
-            farmId: [''],
-            areaId: [{ value: '', disabled: true }],
-            locationX: [{ value: 0, disabled: true }],
-            locationY: [{ value: 0, disabled: true }],
+    if (this.sensor && this.sensor.id) {
+      this.frm.patchValue(this.sensor);
+      this.frm.patchValue({farmId: this.sensor.area.farmId});
+      this._areaService.getByFarm(this.sensor.area.farmId).subscribe(resp => {
+        this.areas = resp.data;
+        this.frm.patchValue({areaId: this.sensor.area.id});
+        this.areaId.enable();
+        this.locationX.enable();
+        this.locationY.enable();
+      });
+    } else {
+      if (this.initialData.farmId) {
+        this._areaService.getByFarm(this.initialData.farmId).subscribe(resp => {
+          this.areas = resp.data;
+          this.areaId.enable();
+          this.locationX.enable();
+          this.locationY.enable();
         });
-        this.id = this.frm.controls['id'];
-        this.name = this.frm.controls['name'];
-        this.sensorType = this.frm.controls['sensorType'];
-        this.farmId = this.frm.controls['farmId'];
-        this.areaId = this.frm.controls['areaId'];
-        this.locationX = this.frm.controls['locationX'];
-        this.locationY = this.frm.controls['locationY'];
-
-        if (this.sensor && this.sensor.id) {
-            this.frm.patchValue(this.sensor);
-            this.frm.patchValue({ farmId: this.sensor.area.farmId });
-            this._areaService.getByFarm(this.sensor.area.farmId).subscribe(resp => {
-                this.areas = resp.data;
-                this.frm.patchValue({ areaId: this.sensor.area.id });
-                this.areaId.enable();
-                this.locationX.enable();
-                this.locationY.enable();
-            });
-        }
+      }
     }
+  }
 
-    public onSubmit(values: Object): void {
-        if (this.frm.valid) {
-            let value = this.frm.value;
-            let data: any = {
-                ...this.frm.value,
-            }
+  public onSubmit(values: Object): void {
+    if (this.frm.valid) {
+      let data: any = {
+        ...this.frm.value,
+      }
 
-            if (this.sensor && this.sensor.id) {
-                this._sensorService.update(this.sensor.id, data).subscribe(resp => {
-                    this.activeModal.close(true);
-                });
-            } else {
-                this._sensorService.create(data).subscribe(resp => {
-                    this.activeModal.close(true);
-                });
-            }
-        } else {
-            this.frm.controls['name'].markAsDirty();
-            this.frm.controls['sensorType'].markAsDirty();
-            this.focusOnInvalidTab();
-        }
+      if (this.sensor && this.sensor.id) {
+        this._sensorService.update(this.sensor.id, data).subscribe(resp => {
+          this.activeModal.close(true);
+        });
+      } else {
+        this._sensorService.create(data).subscribe(resp => {
+          this.activeModal.close(true);
+        });
+      }
+    } else {
+      this.frm.controls['name'].markAsDirty();
+      this.frm.controls['sensorType'].markAsDirty();
+      this.focusOnInvalidTab();
     }
+  }
 
-    private focusOnInvalidTab(): void {
-        if (this.name.invalid || this.sensorType.invalid) {
-            this.mytab.select('infoTab');
-        }
+  private focusOnInvalidTab(): void {
+    if (this.name.invalid || this.sensorType.invalid) {
+      this.mytab.select('infoTab');
     }
+  }
 
-    farmOnChange(farmId: string) {
-        if (farmId) {
-            this.areaId.enable();
-            this._areaService.getByFarm(farmId).subscribe(resp => {
-                this.areas = resp.data;
-            });
-        } else {
-            this.areas = [];
-            this.frm.patchValue({ areaId: '' });
-        }
+  farmOnChange(farmId: string) {
+    if (farmId) {
+      this.areaId.enable();
+      this._areaService.getByFarm(farmId).subscribe(resp => {
+        this.areas = resp.data;
+      });
+    } else {
+      this.areas = [];
+      this.frm.patchValue({areaId: ''});
     }
+  }
 
-    areaOnChange(areaId: string) {
-        if (areaId) {
-            this.locationX.enable();
-            this.locationY.enable();
-        }
+  areaOnChange(areaId: string) {
+    if (areaId) {
+      this.locationX.enable();
+      this.locationY.enable();
     }
+  }
 
-    closeModal() {
-        this.activeModal.close();
-    }
+  closeModal() {
+    this.activeModal.close();
+  }
 }

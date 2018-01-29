@@ -9,12 +9,13 @@ import { Pages } from './pages.component';
 import { CreateOrUpdateSensorComponent } from "./sensors/create-or-update/create-or-update.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ConfirmDialogComponent, ConfirmDialogModule } from "../shared/components/confirm-dialog";
 
 @NgModule({
-  imports: [CommonModule, AppTranslationModule, NgaModule, routing, ReactiveFormsModule, NgbModule.forRoot(),
+  imports: [CommonModule, AppTranslationModule, NgaModule, routing, ReactiveFormsModule, NgbModule.forRoot(), ConfirmDialogModule
   ],
   declarations: [Pages, CreateOrUpdateSensorComponent],
-  entryComponents: [CreateOrUpdateSensorComponent],
+  entryComponents: [CreateOrUpdateSensorComponent, ConfirmDialogComponent],
 })
 export class PagesModule {
 }
