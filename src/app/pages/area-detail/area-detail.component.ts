@@ -1,7 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { icon, latLng, Layer, Map, marker, tileLayer } from 'leaflet';
-import { HubConnection } from '@aspnet/signalr-client';
+import { HubConnection } from '@aspnet/signalr-client/dist/src';
 import { GlobalState } from '../../global.state';
 import * as L from 'leaflet';
 import 'leaflet-contextmenu';
@@ -18,10 +17,10 @@ export class AreaDetail {
   private area: any;
   private types: any;
   private overlay: any;
-  private map: Map;
+  private map: L.Map;
   private devices: any[];
   // Open Street Map definitions
-  private LAYER_OSM = tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  private LAYER_OSM = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: 'Open Street Map',
   });
@@ -29,10 +28,10 @@ export class AreaDetail {
   private options = {
     layers: [this.LAYER_OSM],
     zoom: 10,
-    center: latLng(0, 0),
+    center: L.latLng(0, 0),
     // center: latLng(46.879966, -121.726909)
   };
-  private markers: Layer[] = [];
+  private markers: L.Layer[] = [];
   private interval: any;
   private chartActived: boolean = false;
   private chartData: any[];
@@ -66,10 +65,10 @@ export class AreaDetail {
 
   private makeMaker(sensors: any) {
     sensors.forEach((item, i) => {
-      const newMarker = marker(
+      const newMarker = L.marker(
         [-item.locationY, item.locationX],
-        {
-          icon: icon({
+        <any>{
+          icon: L.icon({
             iconSize: [25, 41],
             iconAnchor: [13, 41],
             iconUrl: '../../../assets/img/antena_azul.png',
@@ -131,7 +130,7 @@ export class AreaDetail {
         });
       };
     }).then((size: any) => {
-      this.map = new L.Map('map', {
+      this.map = new L.Map('map', <any>{
           // set map center to center of floor image
           center: L.latLng(-size.height / 2, size.width / 2),
           crs: L.CRS.Simple,
