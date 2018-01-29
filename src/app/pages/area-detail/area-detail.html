@@ -24,15 +24,20 @@
 <div class="content">
   <div id="map" class="map"></div>
   <div class="chart" [ngClass]="{'active': chartActived}">
-    <div class="card">
-      <div class="card-title">
-        <div class="chart-title">{{chart?.name}}</div>
-        <div class="chart-legend"></div>
-      </div>
-      <div class="card-body">
-        <div class="chart-area"></div>
+
+    <div class="list-sensors">
+      <div class="table-list">
+        <div class="table-row heading">
+          <div class="table-cell">ID</div>
+          <div class="table-cell">Name</div>
+          <div class="table-cell">Type</div>
+        </div>
+        <div class="table-row" *ngFor="let item of area?.sensors">
+          <div class="table-cell">{{item.id}}</div>
+          <div class="table-cell">{{item.name}}</div>
+          <div class="table-cell">{{item.sensorType?.name}}</div>
+        </div>
       </div>
     </div>
-    <div class="list-items"></div>
   </div>
 </div>

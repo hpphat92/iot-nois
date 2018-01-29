@@ -1,10 +1,10 @@
 import { Component, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import * as L from 'leaflet';
 import { icon, latLng, Layer, Map, marker, tileLayer } from 'leaflet';
 import { HubConnection } from '@aspnet/signalr-client';
 import { GlobalState } from '../../global.state';
-
+import * as L from 'leaflet';
+import 'leaflet-contextmenu';
 import { AreaService, HubService, SensorService } from '../../services';
 
 @Component({
@@ -67,7 +67,7 @@ export class AreaDetail {
   private makeMaker(sensors: any) {
     sensors.forEach((item, i) => {
       const newMarker = marker(
-        [item.locationX, item.locationY],
+        [-item.locationY, item.locationX],
         {
           icon: icon({
             iconSize: [25, 41],
@@ -75,13 +75,45 @@ export class AreaDetail {
             iconUrl: '../../../assets/img/antena_azul.png',
             shadowUrl: '../../../assets/img/marker-shadow.png',
           }),
+          draggable: true,
+          contextmenu: true,
+          contextmenuInheritItems: false,
+          contextmenuItems: [{
+            text: 'Edit Sensor',
+            callback: () => {
+            },
+          }, {
+            text: 'Delete Sensor',
+            callback: () => {
+
+            },
+          }]
         },
-      ).on('click', () => {
-        this.interval && clearInterval(this.interval);
-        this.chartActived = true;
-        window.dispatchEvent(new Event('resize'));
-      });
+      )
+        .bindPopup(`<div class="popup-name">${item.name} <em>${item.id}</em></div><div class="popup-name">${item.sensorType.name}</div>`)
+        .on('click', (e) => {
+          newMarker.openPopup();
+        })
+        .on('dragend', (e: any) => {
+          const {lat, lng} = e.target.getLatLng();
+          item.locationY = -lat;
+          item.locationX = lng;
+          this.updateSensor(item);
+        });
       this.markers.push(newMarker);
+      this.map.addLayer(newMarker);
+    });
+  }
+
+  private updateSensor(sensor) {
+    this._sensorService.update(sensor.id, {
+      id: sensor.id,
+      name: sensor.name,
+      sensorType: sensor.sensorType.id,
+      areaId: this.area.id,
+      locationX: sensor.locationX,
+      locationY: sensor.locationY,
+    }).subscribe(resp => {
     });
   }
 
@@ -107,14 +139,22 @@ export class AreaDetail {
           minZoom: -2,
           attributionControl: false,
           zoomSnap: 0,
+          contextmenu: true,
+          contextmenuWidth: 140,
+          contextmenuItems: [{
+            text: 'Add Sensor',
+            callback: () => {
+            }
+          }]
         },
       );
       // bound by width and height of floor
       const bounds = L.latLngBounds(L.latLng(-size.height, 0), L.latLng(0, size.width));
       this.overlay = L.imageOverlay(photoUrl, bounds).addTo(this.map);
       this.map.fitBounds(bounds);
-      this.map.setMaxBounds(bounds);
+      this.map.setMaxBounds(bounds.pad(0.5));
       window.dispatchEvent(new Event('resize'));
+      this.makeMaker(this.area.sensors);
     }));
 
   }

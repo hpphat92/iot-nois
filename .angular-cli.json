@@ -31,6 +31,7 @@
         "../node_modules/ng2-slim-loading-bar/style.css",
         "../node_modules/ng2-toastr/ng2-toastr.css",
         "../node_modules/dygraphs/dist/dygraph.css",
+        "../node_modules/leaflet-contextmenu/dist/leaflet.contextmenu.css",
         "app/theme/theme.scss",
         "styles.scss"
       ],

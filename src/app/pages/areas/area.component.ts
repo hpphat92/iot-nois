@@ -22,9 +22,9 @@ export class Area {
   public isCollapsed: boolean = true;
 
   constructor(private _modalService: NgbModal, private _farmService: FarmService,
-    private _util: Util, private _areaService: AreaService, private _translate: TranslateService, private _fb: FormBuilder, ) {
-    this.data = { total: 0, areas: [] };
-    this.pagingInfo = { pageIndex: 1, pageSize: 10 };
+              private _util: Util, private _areaService: AreaService, private _translate: TranslateService, private _fb: FormBuilder,) {
+    this.data = {total: 0, areas: []};
+    this.pagingInfo = {pageIndex: 1, pageSize: 10};
   }
 
   public ngOnInit(): void {
@@ -39,7 +39,7 @@ export class Area {
       this._areaService.getSortByList().subscribe(resp => {
         this.sortByList = resp.data;
         if (this.sortByList.length) {
-          this.frm.patchValue({ sortBy: this.sortByList[0].key });
+          this.frm.patchValue({sortBy: this.sortByList[0].key});
         }
         this.farms = farmResp.data;
         this.refreshData();
@@ -69,25 +69,37 @@ export class Area {
    */
   public showModalAddArea(): void {
     this._farmService.getAll().subscribe(farmResp => {
-      let modalRef = this._modalService.open(CreateOrUpdateAreaComponent, { backdrop: 'static', size: 'lg', keyboard: false });
+      let modalRef = this._modalService.open(CreateOrUpdateAreaComponent, {
+        backdrop: 'static',
+        size: 'lg',
+        keyboard: false
+      });
       modalRef.componentInstance.title = "Add New Area";
       modalRef.componentInstance.farms = farmResp.data;
       modalRef.result.then(data => {
         if (data) {
           this.refreshData();
         }
-      }, (err) => { });
+      }, (err) => {
+      });
     });
   }
 
   /**
    * Show modal edit area
-   * @param id 
+   * @param event
+   * @param id
    */
-  public showModalEditArea(id: string): void {
+  public showModalEditArea(event: Event, id: string): void {
+    event.stopPropagation();
+    event.preventDefault();
     this._areaService.getById(id).subscribe(areaResp => {
       this._farmService.getAll().subscribe(farmResp => {
-        let modalRef = this._modalService.open(CreateOrUpdateAreaComponent, { backdrop: 'static', size: 'lg', keyboard: false });
+        let modalRef = this._modalService.open(CreateOrUpdateAreaComponent, {
+          backdrop: 'static',
+          size: 'lg',
+          keyboard: false
+        });
         modalRef.componentInstance.title = "Update Area";
         modalRef.componentInstance.area = areaResp.data;
         modalRef.componentInstance.farms = farmResp.data;
@@ -95,16 +107,20 @@ export class Area {
           if (data) {
             this.refreshData();
           }
-        }, (err) => { });
+        }, (err) => {
+        });
       });
     });
   }
 
   /**
    * delete an area by id
-   * @param id 
+   * @param event
+   * @param id
    */
-  public deleteArea(id: string): void {
+  public deleteArea(event: Event, id: string): void {
+    event.preventDefault();
+    event.stopPropagation();
     this._translate.get('modal.delete_area').subscribe((msg: string) => {
       let modalRef = this._modalService.open(ConfirmDialogComponent, {
         keyboard: true,
@@ -119,7 +135,8 @@ export class Area {
             this.refreshData();
           });
         }
-      }, (err) => { });
+      }, (err) => {
+      });
     });
   }
 
