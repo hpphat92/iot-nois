@@ -4,7 +4,12 @@ import { HubConnection } from '@aspnet/signalr-client/dist/src';
 import { GlobalState } from '../../global.state';
 import * as L from 'leaflet';
 import 'leaflet-contextmenu';
-import { AreaService, HubService, SensorService } from '../../services';
+import { AreaService, FarmService, HubService, SensorService } from '../../services';
+import { CreateOrUpdateAreaComponent } from "../areas/create-or-update/create-or-update.component";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog";
+import { TranslateService } from "@ngx-translate/core";
+import { CreateOrUpdateSensorComponent } from "../sensors/create-or-update/create-or-update.component";
 
 @Component({
   selector: 'area-detail',
@@ -34,11 +39,12 @@ export class AreaDetail {
   private markers: L.Layer[] = [];
   private interval: any;
   private chartActived: boolean = false;
+  private farms: any[];
   private chartData: any[];
   private hubConnection: HubConnection;
 
   constructor(private route: ActivatedRoute, private _areaService: AreaService, private state: GlobalState,
-              private _hubService: HubService, private _elementRef: ElementRef, private _sensorService: SensorService) {
+              private _hubService: HubService, private _elementRef: ElementRef, private _sensorService: SensorService, private _farmService: FarmService, private _modalService: NgbModal, private _translate: TranslateService) {
   }
 
   public ngOnInit() {
@@ -48,6 +54,7 @@ export class AreaDetail {
     });
 
     this.getSensorType();
+    this.getFarmData();
     this.chartData = [];
     this._areaService.getById(this.areaId).subscribe(resp => {
       this.state.notifyDataChanged('menu.activeLink', {title: 'Area Detail'});
@@ -60,6 +67,12 @@ export class AreaDetail {
   private getSensorType() {
     this._sensorService.getTypes().subscribe(typeResp => {
       this.types = typeResp.data;
+    });
+  }
+
+  private getFarmData() {
+    this._farmService.getAll().subscribe(farmResp => {
+      this.farms = farmResp.data;
     });
   }
 
@@ -80,11 +93,12 @@ export class AreaDetail {
           contextmenuItems: [{
             text: 'Edit Sensor',
             callback: () => {
+              this.showModalEditSensor(item.id);
             },
           }, {
             text: 'Delete Sensor',
             callback: () => {
-
+              this.deleteSensor(item.id);
             },
           }]
         },
@@ -143,6 +157,7 @@ export class AreaDetail {
           contextmenuItems: [{
             text: 'Add Sensor',
             callback: () => {
+              this.showModalAddSensor();
             }
           }]
         },
@@ -157,4 +172,77 @@ export class AreaDetail {
     }));
 
   }
+
+  private refreshData() {
+    debugger;
+  }
+
+  /**
+   * Show modal add sensor
+   */
+  public showModalAddSensor() {
+    let modalRef = this._modalService.open(CreateOrUpdateSensorComponent, {
+      backdrop: 'static',
+      size: 'lg',
+      keyboard: false
+    });
+    modalRef.componentInstance.title = "Add New Sensor";
+    modalRef.componentInstance.farms = this.farms;
+    modalRef.componentInstance.types = this.types;
+    modalRef.result.then(data => {
+      if (data) {
+        this.refreshData();
+      }
+    }, (err) => {
+    });
+  }
+
+  /**
+   * Show modal edit sensor
+   * @param id
+   */
+  public showModalEditSensor(id: string): void {
+    this._sensorService.getById(id).subscribe(sensorResp => {
+      let modalRef = this._modalService.open(CreateOrUpdateSensorComponent, {
+        backdrop: 'static',
+        size: 'lg',
+        keyboard: false
+      });
+      modalRef.componentInstance.title = "Update Sensor";
+      modalRef.componentInstance.sensor = sensorResp.data;
+      modalRef.componentInstance.farms = this.farms;
+      modalRef.componentInstance.types = this.types;
+      modalRef.result.then(data => {
+        if (data) {
+          this.refreshData();
+        }
+      }, (err) => {
+      });
+    });
+  }
+
+  /**
+   * delete an sensor by id
+   * @param id
+   */
+  public deleteSensor(id: string): void {
+    this._translate.get('modal.delete_sensor').subscribe((msg: string) => {
+      let modalRef = this._modalService.open(ConfirmDialogComponent, {
+        keyboard: true,
+        backdrop: 'static'
+      });
+      modalRef.componentInstance.title = "Delete Sensor";
+      modalRef.componentInstance.message = msg;
+      modalRef.componentInstance.btnOk = "Delete";
+      modalRef.result.then((result: boolean) => {
+        if (result) {
+          this._sensorService.delete(id).subscribe(resp => {
+            this.refreshData();
+          });
+        }
+      }, (err) => {
+      });
+    });
+  }
+
 }

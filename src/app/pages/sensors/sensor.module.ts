@@ -7,7 +7,6 @@ import { NgaModule } from '../../theme/nga.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { Sensor } from './sensor.component';
-import { CreateOrUpdateSensorComponent } from './create-or-update/create-or-update.component';
 import { ConfirmDialogModule } from '../../shared/components/confirm-dialog';
 import { routing } from './sensor.routing';
 
@@ -25,10 +24,6 @@ import { routing } from './sensor.routing';
   ],
   declarations: [
     Sensor,
-    CreateOrUpdateSensorComponent
-  ],
-  entryComponents: [
-    CreateOrUpdateSensorComponent
   ],
   providers: [
   ]

@@ -7,6 +7,7 @@ import { LeafletModule } from '../../../../leaflet/leaflet.module';
 
 import { AreaDetail } from './area-detail.component';
 import { routing } from './area-detail.routing';
+import { CreateOrUpdateSensorComponent } from "../sensors/create-or-update/create-or-update.component";
 
 @NgModule({
   imports: [
