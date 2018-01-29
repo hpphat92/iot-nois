@@ -12,8 +12,8 @@ export const PAGES_MENU = [
             expanded: false,
             hidden: true,
             order: 0,
-          }
-        }
+          },
+        },
       },
       {
         path: 'change-password',
@@ -25,8 +25,8 @@ export const PAGES_MENU = [
             expanded: false,
             hidden: true,
             order: 0,
-          }
-        }
+          },
+        },
       },
       {
         path: 'dashboard',
@@ -38,23 +38,23 @@ export const PAGES_MENU = [
             expanded: false,
             order: 0,
             // roles: ['SuperAdmin']
-          }
-        }
+          },
+        },
       },
       {
-        path: 'area-detail/:id',
+        path: 'view-area/:id',
         data: {
           menu: {
             title: 'general.menu.area-detail',
             icon: 'ion-android-home',
-            hidden:true,
+            hidden: true,
             pathMatch: 'prefix',
             selected: false,
             expanded: false,
             order: 0,
             // roles: ['Admin']
-          }
-        }
+          },
+        },
       },
       {
         path: 'sensors',
@@ -65,9 +65,9 @@ export const PAGES_MENU = [
             selected: false,
             expanded: false,
             order: 0,
-            roles: ['Admin']
-          }
-        }
+            roles: ['Admin'],
+          },
+        },
       },
       {
         path: 'areas',
@@ -78,9 +78,9 @@ export const PAGES_MENU = [
             selected: false,
             expanded: false,
             order: 0,
-            roles: ['Admin']
-          }
-        }
+            roles: ['Admin'],
+          },
+        },
       },
       {
         path: 'farms',
@@ -91,9 +91,9 @@ export const PAGES_MENU = [
             selected: false,
             expanded: false,
             order: 0,
-            roles: ['Admin']
-          }
-        }
+            roles: ['Admin'],
+          },
+        },
       },
       {
         path: 'users',
@@ -104,10 +104,10 @@ export const PAGES_MENU = [
             selected: false,
             expanded: false,
             order: 0,
-            roles: ['Admin']
-          }
-        }
+            roles: ['Admin'],
+          },
+        },
       },
-    ]
-  }
+    ],
+  },
 ];

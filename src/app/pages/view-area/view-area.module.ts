@@ -5,8 +5,8 @@ import { AppTranslationModule } from '../../app.translation.module';
 import { NgaModule } from '../../theme/nga.module';
 import { LeafletModule } from '../../../../leaflet/leaflet.module';
 
-import { AreaDetail } from './area-detail.component';
-import { routing } from './area-detail.routing';
+import { ViewAreaComponent } from './view-area.component';
+import { routing } from './view-area.routing';
 
 @NgModule({
   imports: [
@@ -18,9 +18,9 @@ import { routing } from './area-detail.routing';
     routing,
   ],
   declarations: [
-    AreaDetail,
+    ViewAreaComponent,
   ],
   providers: [
   ],
 })
-export class AreaDetailModule { }
+export class ViewAreaModule { }

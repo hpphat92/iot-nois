@@ -31,7 +31,7 @@ const APP_PROVIDERS = [
   AreaService,
   SensorService,
   DashboardService,
-  HubService
+  HubService,
 ];
 
 export type StoreType = {

@@ -1,0 +1,41 @@
+<div class="col-md-12">
+    <h3 *ngIf="area">{{area.name}} - {{area.farm.name}}</h3>
+    <!-- <div class="row form-group m-b-0 required">
+        <div class="col-sm-2">
+            <label class="nowrap">Sensor Type</label>
+        </div>
+        <div class="col-sm-2">
+            <select class="form-control">
+                <option value="">-- All Type --</option>
+                <option *ngFor="let c of types" [value]="c.key">{{c.value}}</option>
+            </select>
+        </div>
+    </div> -->
+    <div class="row form-group">
+        <div class="col-md-2">
+            <select class="form-control border-radius-non s-h-36" (change)="onChange($event.target.value)">
+                <option value="-1">-- All Sensor Type --</option>
+                <option *ngFor="let c of types" [value]="c.key">{{c.value}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="map" leaflet [leafletOptions]="options" [leafletLayers]="markers" (leafletMapReady)="onMapReady($event)">
+    </div>
+    <div class="chart" [ngClass]="{'active': chartActived}">
+        <div class="card">
+            <div class="card-title">
+                <div class="chart-title">{{chart?.name}}</div>
+                <div class="chart-legend"></div>
+            </div>
+            <div class="card-body">
+                <div class="chart-area"></div>
+            </div>
+        </div>
+        <div class="close" (click)="closeChart()">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>

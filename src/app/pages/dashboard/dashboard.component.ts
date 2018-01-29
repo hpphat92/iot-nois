@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 import { DashboardService } from '../../services/index';
 
 @Component({
   selector: 'dashboard',
   styleUrls: ['./dashboard.scss'],
-  templateUrl: './dashboard.html'
+  templateUrl: './dashboard.html',
 })
 export class Dashboard {
 
@@ -23,6 +23,6 @@ export class Dashboard {
   }
 
   public detailArea(id: string) {
-    this._router.navigate(['pages', 'area-detail', id]);
+    this._router.navigate(['pages', 'view-area', id]);
   }
 }

@@ -9,7 +9,7 @@ import { ModuleWithProviders } from '@angular/core';
 export const routes: Routes = [
   {
     path: 'login',
-    loadChildren: 'app/pages/login/login.module#LoginModule'
+    loadChildren: 'app/pages/login/login.module#LoginModule',
   },
   {
     path: 'signup',
@@ -35,9 +35,10 @@ export const routes: Routes = [
       { path: 'sensors', loadChildren: './sensors/sensor.module#SensorModule', canActivate: [AuthGuard] },
       { path: 'profile', loadChildren: './profile/profile.module#ProfileModule', canActivate: [AuthGuard] },
       { path: 'change-password', loadChildren: './change-password/change-password.module#ChangePasswordModule', canActivate: [AuthGuard] },
+      { path: 'view-area/:id', loadChildren: './view-area/view-area.module#ViewAreaModule', canActivate: [AuthGuard] },
       { path: 'area-detail/:id', loadChildren: './area-detail/area-detail.module#AreaDetailModule', canActivate: [AuthGuard] },
-    ]
-  }
+    ],
+  },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forChild(routes);

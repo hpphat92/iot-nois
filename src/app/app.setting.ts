@@ -1,5 +1,6 @@
 export class AppSetting {
-  public static API_ENDPOINT = 'http://localhost:59292/api/';
+  public static API_ENDPOINT = 'http://192.168.1.242:44421/api/';
+  // public static API_ENDPOINT = 'http://localhost:59292/api/';
   public static HUB_ENDPOINT = '';
   // for localhost
   // public static API_ENDPOINT = 'http://localhost:59291/api/';
