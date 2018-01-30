@@ -28,6 +28,7 @@ export class SensorChart {
   }
 
   private _bindGPUCharts() {
+    debugger
     function legendFormatter(data) {
       if (data.x == null) {
         // This happens when there's no selection and {legend: 'always'} is set.

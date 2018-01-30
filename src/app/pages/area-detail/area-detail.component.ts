@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HubConnection } from '@aspnet/signalr-client/dist/src';
 import { GlobalState } from '../../global.state';
@@ -6,10 +6,11 @@ import * as L from 'leaflet';
 import 'leaflet-contextmenu';
 import { AreaService, FarmService, HubService, SensorService } from '../../services';
 import { CreateOrUpdateAreaComponent } from "../areas/create-or-update/create-or-update.component";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmDialogComponent } from "../../shared/components/confirm-dialog";
 import { TranslateService } from "@ngx-translate/core";
 import { CreateOrUpdateSensorComponent } from "../sensors/create-or-update/create-or-update.component";
+import { SensorChartModalComponent } from "./sensor-chart/sensor-chart.component";
 
 @Component({
   selector: 'area-detail',
@@ -43,7 +44,8 @@ export class AreaDetail {
   private hubConnection: HubConnection;
 
   constructor(private route: ActivatedRoute, private _areaService: AreaService, private state: GlobalState,
-              private _hubService: HubService, private _elementRef: ElementRef, private _sensorService: SensorService, private _farmService: FarmService, private _modalService: NgbModal, private _translate: TranslateService) {
+    private _hubService: HubService, private _elementRef: ElementRef, private _sensorService: SensorService, private _farmService: FarmService,
+    private _modalService: NgbModal, private _translate: TranslateService) {
   }
 
   public ngOnInit() {
@@ -55,7 +57,7 @@ export class AreaDetail {
     this.getSensorType();
     this.getFarmData();
     this._areaService.getById(this.areaId).subscribe(resp => {
-      this.state.notifyDataChanged('menu.activeLink', {title: 'Area Detail'});
+      this.state.notifyDataChanged('menu.activeLink', { title: 'Area Detail' });
       this.area = resp.data;
       this.initMap(resp.data.photo);
     });
@@ -94,6 +96,11 @@ export class AreaDetail {
             contextmenu: true,
             contextmenuInheritItems: false,
             contextmenuItems: [{
+              text: 'View Chart',
+              callback: (e) => {
+                this.viewChart(item.id);
+              },
+            }, {
               text: 'Edit Sensor',
               callback: (e) => {
                 this.showModalEditSensor(item.id);
@@ -111,7 +118,7 @@ export class AreaDetail {
             newMarker.openPopup();
           })
           .on('dragend', (e: any) => {
-            const {lat, lng} = e.target.getLatLng();
+            const { lat, lng } = e.target.getLatLng();
             item.locationY = -lat;
             item.locationX = lng;
             this.updateSensor(item);
@@ -149,22 +156,22 @@ export class AreaDetail {
       };
     }).then((size: any) => {
       this.map = new L.Map('map', <any>{
-          // set map center to center of floor image
-          center: L.latLng(-size.height / 2, size.width / 2),
-          crs: L.CRS.Simple,
-          maxZoom: 4,
-          minZoom: -2,
-          attributionControl: false,
-          zoomSnap: 0,
-          contextmenu: true,
-          contextmenuWidth: 140,
-          contextmenuItems: [{
-            text: 'Add Sensor',
-            callback: (e) => {
-              this.showModalAddSensor(e);
-            }
-          }]
-        },
+        // set map center to center of floor image
+        center: L.latLng(-size.height / 2, size.width / 2),
+        crs: L.CRS.Simple,
+        maxZoom: 4,
+        minZoom: -2,
+        attributionControl: false,
+        zoomSnap: 0,
+        contextmenu: true,
+        contextmenuWidth: 140,
+        contextmenuItems: [{
+          text: 'Add Sensor',
+          callback: (e) => {
+            this.showModalAddSensor(e);
+          }
+        }]
+      },
       );
       // bound by width and height of floor
       const bounds = L.latLngBounds(L.latLng(-size.height, 0), L.latLng(0, size.width));
@@ -208,8 +215,8 @@ export class AreaDetail {
     });
     modalRef.componentInstance.title = "Add New Sensor";
     modalRef.componentInstance.initialData = {
-      locationX: e ? e.latlng.lng: 0,
-      locationY: e ? e.latlng.lat: 0,
+      locationX: e ? e.latlng.lng : 0,
+      locationY: e ? e.latlng.lat : 0,
       farmId: this.area.farmId,
       areaId: this.area.id,
     };
@@ -271,4 +278,14 @@ export class AreaDetail {
     });
   }
 
+  public viewChart(id: string) {
+    this._sensorService.getById(id).subscribe(sensorResp => {
+      let modalRef = this._modalService.open(SensorChartModalComponent, {
+        backdrop: 'static',
+        // size: 'lg',
+        keyboard: false
+      });
+      modalRef.componentInstance.sensor = sensorResp.data;
+    });
+  }
 }

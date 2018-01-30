@@ -1,16 +1,5 @@
 <div class="col-md-12">
   <h3 *ngIf="area">{{area.name}} - {{area.farm.name}}</h3>
-  <!-- <div class="row form-group m-b-0 required">
-      <div class="col-sm-2">
-          <label class="nowrap">Sensor Type</label>
-      </div>
-      <div class="col-sm-2">
-          <select class="form-control">
-              <option value="">-- All Type --</option>
-              <option *ngFor="let c of types" [value]="c.key">{{c.value}}</option>
-          </select>
-      </div>
-  </div> -->
 </div>
 
 <div class="content">
@@ -31,12 +20,12 @@
           <div class="table-cell">Type</div>
           <div class="table-cell">Action</div>
         </div>
-        <div class="table-row" *ngFor="let item of area?.sensors"
-             [class.hidden]="selectedSensor && !(+selectedSensor == item.sensorType.id)">
+        <div class="table-row" *ngFor="let item of area?.sensors" [class.hidden]="selectedSensor && !(+selectedSensor == item.sensorType.id)">
           <div class="table-cell">{{item.id}}</div>
           <div class="table-cell">{{item.name}}</div>
           <div class="table-cell">{{item.sensorType?.name}}</div>
           <div class="table-cell">
+            <button class="btn btn-sm btn-info" (click)="viewChart(item.id)">View Chart</button>
             <button class="btn btn-sm btn-primary" (click)="showModalEditSensor(item.id)">Edit</button>
             <button class="btn btn-sm btn-danger" (click)="deleteSensor(item.id)">Delete</button>
           </div>
