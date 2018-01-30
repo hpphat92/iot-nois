@@ -18,6 +18,7 @@ import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { CoreModule } from './core/core.module';
 import { AuthGuard, AuthService, UserService, ProfileService, Util, FarmService, AreaService, SensorService, DashboardService, HubService } from './services/index';
+import { SensorChartModule } from "./shared/components/sensor-chart-data/sensor-chart-data.module";
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
@@ -59,6 +60,7 @@ export type StoreType = {
     PagesModule,
     routing,
     CoreModule,
+    SensorChartModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS
