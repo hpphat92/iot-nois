@@ -1,0 +1,16 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title"> {{sensor.name}} </h4>
+        <button class="close" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="sensor">
+            <sensor-chart [sensor]="sensor"></sensor-chart>
+        </ng-container>
+    </div>
+    <div class="modal-footer text-right">
+        <button type="button" class="btn btn-cancel" (click)="closeModal()">Close</button>
+    </div>
+</div>
