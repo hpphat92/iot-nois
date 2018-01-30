@@ -15,14 +15,13 @@
     <div class="chart" [ngClass]="{'active': chartActived}">
         <div class="card">
             <div class="card-title">
-                <div class="chart-title">{{chart?.name}}</div>
+                <div class="chart-title">{{selectedSensor?.name}}</div>
                 <div class="chart-legend"></div>
             </div>
             <div class="card-body">
-
-              <sensor-chart [sensor]="selectedSensor"></sensor-chart>
-
-                <!--<div class="chart-area"></div>-->
+                <ng-container *ngIf="selectedSensor">
+                    <sensor-chart [sensor]="selectedSensor"></sensor-chart>
+                </ng-container>
             </div>
         </div>
         <div class="close" (click)="closeChart()">
