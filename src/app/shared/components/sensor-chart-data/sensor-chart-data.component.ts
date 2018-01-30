@@ -1,6 +1,6 @@
-import { Component, ElementRef, Input } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as moment from 'moment';
-import { SensorService } from "../../../services";
+import { SensorService, HubService } from "../../../services";
 
 @Component({
   selector: 'sensor-chart',
@@ -10,15 +10,24 @@ import { SensorService } from "../../../services";
 export class SensorChart {
 
   @Input()
-  public sensor;
+  public sensor: any;
 
-  private chart = {name: '', chartData: [], options: undefined, g: undefined, value: 0, active: true};
+  private interval: any;
+  private chart = { name: '', chartData: [], options: undefined, g: undefined, value: 0, active: true };
   private oldChartData: any[];
+  private realValue: number;
 
-  constructor(private _elementRef: ElementRef, private _sensorService: SensorService) {
+  constructor(private _elementRef: ElementRef, private _sensorService: SensorService, private _hubService: HubService) {
   }
 
-  private _bindGPUCharts(i) {
+  ngOnChanges() {
+    setTimeout(() => {
+      this._bindGPUCharts();
+    });
+    this.listenSignalR();
+  }
+
+  private _bindGPUCharts() {
     function legendFormatter(data) {
       if (data.x == null) {
         // This happens when there's no selection and {legend: 'always'} is set.
@@ -44,11 +53,8 @@ export class SensorChart {
     }
 
     const time = Date();
-    const sensor = this.sensors.find(function (obj) {
-      return obj.id === i;
-    });
-    this.chart.name = sensor && sensor.name || '';
-    this.chart.value = sensor && sensor.value || 0;
+    this.chart.name = this.sensor && this.sensor.name || '';
+    this.chart.value = this.sensor && this.sensor.value || 0;
     this.chart.chartData = [
       [new Date(), this.chart.value],
     ];
@@ -57,11 +63,11 @@ export class SensorChart {
       showRoller: false,
       drawPoints: true,
       legend: 'always',
-      labels: ['Time', sensor.sensorType.name],
+      labels: ['Time', this.sensor.sensorType.name],
       labelsDiv: this._elementRef.nativeElement.querySelector('.chart-legend'),
       legendFormatter,
       series: {
-        'Accelerometer': {axis: 'y'},
+        'Accelerometer': { axis: 'y' },
       },
       axes: {
         y: {
@@ -75,17 +81,16 @@ export class SensorChart {
     this.chart.g = new (window as any).Dygraph(this._elementRef.nativeElement.querySelector('.chart-area'), this.chart.chartData, this.chart.options);
 
     this.interval = setInterval(() => {
-      this.chart.value = this.chartData && this.chartData[i] && this.chartData[i].value || 0;
+      this.chart.value = this.realValue || 0;
       this.chart.chartData.push([new Date(), this.chart.value]);
-      this.chart.g.updateOptions({'file': this.chart.chartData});
+      this.chart.g.updateOptions({ 'file': this.chart.chartData });
       this.chart.options.dateWindow[0] += 500;
       this.chart.options.dateWindow[1] += 500;
-      this.chart.g.updateOptions({'dateWindow': this.chart.options.dateWindow});
+      this.chart.g.updateOptions({ 'dateWindow': this.chart.options.dateWindow });
     }, 1000);
 
-    this.getData(i, time);
+    this.getData(this.sensor.id, time);
   }
-
 
   private getData(id, time) {
     const data = {
@@ -99,6 +104,12 @@ export class SensorChart {
     });
   }
 
-  public ngOnInit(): void {
+  private listenSignalR(): void {
+    let hubConnection = this._hubService.getHubConnection();
+    hubConnection.on('realTimeData', resp => {
+      if (this.sensor.id == resp.deviceId) {
+        this.realValue = resp.value;
+      }
+    });
   }
 }
