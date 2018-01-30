@@ -3,7 +3,7 @@ import { NgaModule } from '../../../theme/nga.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { SensorChart } from './sensor-chart-data.component';
+import { TempHumidityChart } from './temp-humidity-chart.component';
 
 @NgModule({
   imports: [
@@ -12,12 +12,12 @@ import { SensorChart } from './sensor-chart-data.component';
     NgaModule,
   ],
   declarations: [
-    SensorChart
+    TempHumidityChart
   ],
   exports: [
-    SensorChart
+    TempHumidityChart
   ],
   providers: [
   ]
 })
-export class SensorChartModule { }
+export class TempHumidityChartModule { }

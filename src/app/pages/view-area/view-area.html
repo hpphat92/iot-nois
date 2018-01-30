@@ -19,8 +19,11 @@
                 <div class="chart-legend"></div>
             </div>
             <div class="card-body">
-                <ng-container *ngIf="selectedSensor">
-                    <sensor-chart [sensor]="selectedSensor"></sensor-chart>
+                <ng-container *ngIf="selectedSensor && selectedSensor.sensorType.id == 0">
+                    <temp-humidity-chart [sensor]="selectedSensor"></temp-humidity-chart>
+                </ng-container>
+                <ng-container *ngIf="selectedSensor && selectedSensor.sensorType.id != 0">
+                    <atmospheric-chart [sensor]="selectedSensor"></atmospheric-chart>
                 </ng-container>
             </div>
         </div>
