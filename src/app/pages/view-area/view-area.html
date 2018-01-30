@@ -19,7 +19,10 @@
                 <div class="chart-legend"></div>
             </div>
             <div class="card-body">
-                <div class="chart-area"></div>
+
+              <sensor-chart [sensor]="selectedSensor"></sensor-chart>
+
+                <!--<div class="chart-area"></div>-->
             </div>
         </div>
         <div class="close" (click)="closeChart()">
