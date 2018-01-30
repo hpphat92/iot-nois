@@ -36,7 +36,7 @@ export class CreateOrUpdateSensorComponent implements OnInit {
   private locationY: AbstractControl;
 
   constructor(private _fb: FormBuilder, private activeModal: NgbActiveModal,
-              private _areaService: AreaService, private _sensorService: SensorService) {
+    private _areaService: AreaService, private _sensorService: SensorService) {
 
   }
 
@@ -47,9 +47,9 @@ export class CreateOrUpdateSensorComponent implements OnInit {
       name: ['', Validators.required],
       sensorType: ['', Validators.required],
       farmId: [''],
-      areaId: [{value: '', disabled: true}],
-      locationX: [{value: this.initialData.locationX || 0, disabled: true}],
-      locationY: [{value: this.initialData.locationY || 0, disabled: true}],
+      areaId: [{ value: '', disabled: true }],
+      locationX: [{ value: this.initialData.locationX || 0, disabled: true }],
+      locationY: [{ value: this.initialData.locationY || 0, disabled: true }],
     });
     this.id = this.frm.controls['id'];
     this.name = this.frm.controls['name'];
@@ -64,10 +64,10 @@ export class CreateOrUpdateSensorComponent implements OnInit {
     }
     if (this.sensor && this.sensor.id) {
       this.frm.patchValue(this.sensor);
-      this.frm.patchValue({farmId: this.sensor.area.farmId});
+      this.frm.patchValue({ farmId: this.sensor.area.farmId });
       this._areaService.getByFarm(this.sensor.area.farmId).subscribe(resp => {
         this.areas = resp.data;
-        this.frm.patchValue({areaId: this.sensor.area.id});
+        this.frm.patchValue({ areaId: this.sensor.area.id, sensorType: this.sensor.sensorType.id });
         this.areaId.enable();
         this.locationX.enable();
         this.locationY.enable();
@@ -120,7 +120,7 @@ export class CreateOrUpdateSensorComponent implements OnInit {
       });
     } else {
       this.areas = [];
-      this.frm.patchValue({areaId: ''});
+      this.frm.patchValue({ areaId: '' });
     }
   }
 
