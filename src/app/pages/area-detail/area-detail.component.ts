@@ -216,7 +216,7 @@ export class AreaDetail {
     modalRef.componentInstance.title = "Add New Sensor";
     modalRef.componentInstance.initialData = {
       locationX: e ? e.latlng.lng : 0,
-      locationY: e ? e.latlng.lat : 0,
+      locationY: e ? -e.latlng.lat : 0,
       farmId: this.area.farmId,
       areaId: this.area.id,
     };
