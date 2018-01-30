@@ -12,6 +12,86 @@
   }
 }
 
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  .content {
+        .close {
+          position: absolute;
+          top: 0;
+          font-size: 18px;
+          right: 1px;
+          padding: 3px 6px;
+          border: 1px solid;
+          border-radius: 0 3px 0 0;
+          cursor: pointer;
+        }
+
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    .map {
+      margin: 20px;
+      flex-grow: 1;
+      min-height: 465px;
+      border: 1px solid rgb(5, 119, 49);
+    }
+    .chart {
+      width: 33%;
+      margin: 20px;
+      position: relative;
+      display: none;
+      flex-direction: column;
+          &.active {
+            display: flex;
+          }
+    }
+    .heading-button {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      select {
+        width: 35%;
+      }
+    }
+
+    .list-sensors {
+      height: 100%;
+      overflow: auto;
+      .table-list {
+        display: table;
+        width: 100%;
+        line-height: 1.5;
+        font-size: 16px;
+        border-collapse: collapse;
+        .table-row {
+          display: table-row;
+          &.hidden {
+            display: none;
+          }
+          &:not(.heading) {
+            line-height: 2.5;
+            font-size: 18px;
+          }
+          &.heading {
+            font-weight: bold;
+            border-bottom: 1px solid #ccc;
+          }
+          .table-cell {
+            display: table-cell;
+            padding-left: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+  }
+}
+
 .user-stats-card {
   .card-title {
     padding: 0 0 15px;
@@ -24,50 +104,4 @@
 
 .m-t-20 {
   margin-top: 20px;
-}
-
-.content {
-  flex-grow: 1;
-  height: 100%;
-  display: flex;
-  .map {
-    margin: 20px;
-    flex-grow: 1;
-    height: -moz-calc(100% - 60px);
-    height: -webkit-calc(100% - 60px);
-    height: calc(100% - 60px);
-    min-height: 465px;
-    border: 1px solid rgb(5, 119, 49);
-  }
-  .chart {
-    display: none;
-    width: 680px;
-    margin: 20px;
-    position: relative;
-    &.active {
-      display: block;
-    }
-    .card {
-      height: -moz-calc(100% - 25px);
-      height: -webkit-calc(100% - 25px);
-      height: calc(100% - 25px);
-      min-height: 465px;
-    }
-    .chart-title, .chart-legend {
-      padding-left: 10px;
-    }
-    .chart-area {
-      width: 100% !important;
-    }
-    .close {
-      position: absolute;
-      top: 0;
-      font-size: 18px;
-      right: 1px;
-      padding: 3px 6px;
-      border: 1px solid;
-      border-radius: 0 3px 0 0;
-      cursor: pointer;
-    }
-  }
 }
