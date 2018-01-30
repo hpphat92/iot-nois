@@ -3,19 +3,19 @@ import * as moment from 'moment';
 import { SensorService, HubService } from "../../../services";
 
 @Component({
-  selector: 'sensor-chart',
-  styleUrls: ['./sensor-chart-data.scss'],
-  templateUrl: './sensor-chart-data.html',
+  selector: 'temp-humidity-chart',
+  styleUrls: ['./temp-humidity-chart.scss'],
+  templateUrl: './temp-humidity-chart.html',
 })
-export class SensorChart {
+export class TempHumidityChart {
 
   @Input()
   public sensor: any;
 
   private interval: any;
-  private chart = { name: '', chartData: [], options: undefined, g: undefined, value: 0, active: true };
+  private chart = { name: '', chartData: [], options: undefined, g: undefined, firstValue: 0, secondValue: 0, active: true };
   private oldChartData: any[];
-  private realValue: number;
+  private realValue: any;
 
   constructor(private _elementRef: ElementRef, private _sensorService: SensorService, private _hubService: HubService) {
   }
@@ -28,7 +28,6 @@ export class SensorChart {
   }
 
   private _bindGPUCharts() {
-    debugger
     function legendFormatter(data) {
       if (data.x == null) {
         // This happens when there's no selection and {legend: 'always'} is set.
@@ -55,26 +54,33 @@ export class SensorChart {
 
     const time = Date();
     this.chart.name = this.sensor && this.sensor.name || '';
-    this.chart.value = this.sensor && this.sensor.value || 0;
+    this.chart.firstValue = this.realValue && this.realValue.firstValue || 0;
+    this.chart.secondValue = this.realValue && this.realValue.secondValue || 0;
     this.chart.chartData = [
-      [new Date(), this.chart.value],
+      [new Date(), this.chart.firstValue, this.chart.secondValue],
     ];
     this.chart.options = {
       dateWindow: [Date.now() - 120000, Date.now()],
       showRoller: false,
       drawPoints: true,
       legend: 'always',
-      labels: ['Time', this.sensor.sensorType.name],
+      labels: ['Time', 'Temperature', 'Humidity'],
       labelsDiv: this._elementRef.nativeElement.querySelector('.chart-legend'),
       legendFormatter,
       series: {
-        'Accelerometer': { axis: 'y' },
+        'Humidity': { axis: 'y2' },
       },
       axes: {
         y: {
-          valueRange: [0, 50],
+          valueRange: [0, 140],
           axisLabelFormatter(y) {
             return y + '°C';
+          },
+        },
+        y2: {
+          valueRange: [0, 140],
+          axisLabelFormatter(y) {
+            return y + '%';
           },
         },
       },
@@ -82,8 +88,9 @@ export class SensorChart {
     this.chart.g = new (window as any).Dygraph(this._elementRef.nativeElement.querySelector('.chart-area'), this.chart.chartData, this.chart.options);
 
     this.interval = setInterval(() => {
-      this.chart.value = this.realValue || 0;
-      this.chart.chartData.push([new Date(), this.chart.value]);
+      let firstVal = this.realValue && this.realValue.firstValue || 0;
+      let secondVal = this.realValue && this.realValue.secondVal || 0;
+      this.chart.chartData.push([new Date(), firstVal, secondVal]);
       this.chart.g.updateOptions({ 'file': this.chart.chartData });
       this.chart.options.dateWindow[0] += 500;
       this.chart.options.dateWindow[1] += 500;
@@ -100,17 +107,15 @@ export class SensorChart {
 
     this._sensorService.getTimeData(id, data).subscribe(resp => {
       this.oldChartData = resp.data;
-      this.oldChartData = this.oldChartData.map(item => [new Date(item[0]), item[1]]);
+      this.oldChartData = this.oldChartData.map(item => [new Date(item[0]), item[1], item[2]]);
       this.chart.chartData = [...this.oldChartData, ...this.chart.chartData];
     });
   }
 
   private listenSignalR(): void {
     let hubConnection = this._hubService.getHubConnection();
-    hubConnection.on('realTimeData', resp => {
-      if (this.sensor.id == resp.deviceId) {
-        this.realValue = resp.value;
-      }
+    hubConnection.on(this.sensor.id, resp => {
+      this.realValue = resp;
     });
   }
 }

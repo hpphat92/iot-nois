@@ -18,7 +18,8 @@ import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { CoreModule } from './core/core.module';
 import { AuthGuard, AuthService, UserService, ProfileService, Util, FarmService, AreaService, SensorService, DashboardService, HubService } from './services/index';
-import { SensorChartModule } from "./shared/components/sensor-chart-data/sensor-chart-data.module";
+import { TempHumidityChartModule } from "./shared/components/temp-humidity-chart/temp-humidity-chart.module";
+import { AtmosphericChartModule } from "./shared/components/atmospheric-chart/atmospheric-chart.module";
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
@@ -60,7 +61,8 @@ export type StoreType = {
     PagesModule,
     routing,
     CoreModule,
-    SensorChartModule
+    TempHumidityChartModule,
+    AtmosphericChartModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS

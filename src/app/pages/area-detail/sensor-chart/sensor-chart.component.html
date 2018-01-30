@@ -6,8 +6,11 @@
         </button>
     </div>
     <div class="modal-body">
-        <ng-container *ngIf="sensor">
-            <sensor-chart [sensor]="sensor"></sensor-chart>
+        <ng-container *ngIf="sensor && sensor.sensorType.id == 0">
+            <temp-humidity-chart [sensor]="sensor"></temp-humidity-chart>
+        </ng-container>
+        <ng-container *ngIf="sensor && sensor.sensorType.id != 0">
+            <atmospheric-chart [sensor]="sensor"></atmospheric-chart>
         </ng-container>
     </div>
     <div class="modal-footer text-right">

@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../app.translation.module';
 import { NgaModule } from '../../theme/nga.module';
 import { LeafletModule } from '../../../../leaflet/leaflet.module';
-import { SensorChartModule } from '../../shared/components/sensor-chart-data';
+import { TempHumidityChartModule } from '../../shared/components/temp-humidity-chart';
+import { AtmosphericChartModule } from '../../shared/components/atmospheric-chart';
 
 import { ViewAreaComponent } from './view-area.component';
 import { routing } from './view-area.routing';
@@ -17,7 +18,8 @@ import { routing } from './view-area.routing';
     NgaModule,
     LeafletModule.forRoot(),
     routing,
-    SensorChartModule
+    TempHumidityChartModule,
+    AtmosphericChartModule
   ],
   declarations: [
     ViewAreaComponent,

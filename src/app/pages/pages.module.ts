@@ -11,10 +11,11 @@ import { SensorChartModalComponent } from "./area-detail/sensor-chart/sensor-cha
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmDialogComponent, ConfirmDialogModule } from "../shared/components/confirm-dialog";
-import { SensorChartModule } from "../shared/components/sensor-chart-data";
+import { TempHumidityChartModule } from "../shared/components/temp-humidity-chart";
+import { AtmosphericChartModule } from "../shared/components/atmospheric-chart";
 
 @NgModule({
-  imports: [CommonModule, AppTranslationModule, NgaModule, routing, ReactiveFormsModule, NgbModule.forRoot(), ConfirmDialogModule, SensorChartModule
+  imports: [CommonModule, AppTranslationModule, NgaModule, routing, ReactiveFormsModule, NgbModule.forRoot(), ConfirmDialogModule, TempHumidityChartModule, AtmosphericChartModule
   ],
   declarations: [Pages, CreateOrUpdateSensorComponent, SensorChartModalComponent],
   entryComponents: [CreateOrUpdateSensorComponent, ConfirmDialogComponent, SensorChartModalComponent],
