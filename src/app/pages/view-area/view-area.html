@@ -15,7 +15,7 @@
     <div class="chart" [ngClass]="{'active': chartActived}">
         <div class="card">
             <div class="card-title">
-                <div class="chart-title">{{selectedSensor?.name}}</div>
+                <div class="chart-title m-t-20 m-l-20">{{selectedSensor?.name}}</div>
                 <div class="chart-legend"></div>
             </div>
             <div class="card-body">
@@ -27,7 +27,7 @@
                 </ng-container>
             </div>
         </div>
-        <div class="close" (click)="closeChart()">
+        <div class="close m-r-5 m-t-5" (click)="closeChart()">
             <i class="fa fa-times"></i>
         </div>
     </div>

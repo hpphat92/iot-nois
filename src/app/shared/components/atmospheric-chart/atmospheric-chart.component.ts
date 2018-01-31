@@ -63,6 +63,8 @@ export class AtmosphericChart {
       unit = 'g'
     else
       unit = 'lux';
+    this.chart.firstValue = this.realValue && this.realValue.firstValue || 0;
+    this.chart.chartData = [[new Date(), this.chart.firstValue]];
     this.chart.options = {
       dateWindow: [Date.now() - 120000, Date.now()],
       showRoller: false,
@@ -87,11 +89,14 @@ export class AtmosphericChart {
 
     this.interval = setInterval(() => {
       let value = this.realValue && this.realValue.firstValue || 0;
-      this.chart.chartData.push([new Date(), value]);
-      this.chart.g.updateOptions({ 'file': this.chart.chartData });
-      this.chart.options.dateWindow[0] += 500;
-      this.chart.options.dateWindow[1] += 500;
-      this.chart.g.updateOptions({ 'dateWindow': this.chart.options.dateWindow });
+      let pushAt = this.realValue && this.realValue.pushAt;
+      if (pushAt) {
+        this.chart.chartData.push([new Date(pushAt), value]);
+        this.chart.g.updateOptions({ 'file': this.chart.chartData });
+        this.chart.options.dateWindow[0] += 500;
+        this.chart.options.dateWindow[1] += 500;
+        this.chart.g.updateOptions({ 'dateWindow': this.chart.options.dateWindow });
+      }
     }, 1000);
 
     this.getData(this.sensor.id, time);

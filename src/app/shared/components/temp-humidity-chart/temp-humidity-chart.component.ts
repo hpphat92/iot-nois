@@ -56,9 +56,7 @@ export class TempHumidityChart {
     this.chart.name = this.sensor && this.sensor.name || '';
     this.chart.firstValue = this.realValue && this.realValue.firstValue || 0;
     this.chart.secondValue = this.realValue && this.realValue.secondValue || 0;
-    this.chart.chartData = [
-      [new Date(), this.chart.firstValue, this.chart.secondValue],
-    ];
+    this.chart.chartData = [[new Date(), this.chart.firstValue, this.chart.secondValue]];
     this.chart.options = {
       dateWindow: [Date.now() - 120000, Date.now()],
       showRoller: false,
@@ -74,13 +72,13 @@ export class TempHumidityChart {
         y: {
           valueRange: [0, 140],
           axisLabelFormatter(y) {
-            return y + '°C';
+            return y + ' °C';
           },
         },
         y2: {
           valueRange: [0, 140],
           axisLabelFormatter(y) {
-            return y + '%';
+            return y + ' %';
           },
         },
       },
@@ -89,12 +87,15 @@ export class TempHumidityChart {
 
     this.interval = setInterval(() => {
       let firstVal = this.realValue && this.realValue.firstValue || 0;
-      let secondVal = this.realValue && this.realValue.secondVal || 0;
-      this.chart.chartData.push([new Date(), firstVal, secondVal]);
-      this.chart.g.updateOptions({ 'file': this.chart.chartData });
-      this.chart.options.dateWindow[0] += 500;
-      this.chart.options.dateWindow[1] += 500;
-      this.chart.g.updateOptions({ 'dateWindow': this.chart.options.dateWindow });
+      let secondVal = this.realValue && this.realValue.secondValue || 0;
+      let pushAt = this.realValue && this.realValue.pushAt;
+      if (pushAt) {
+        this.chart.chartData.push([new Date(pushAt), firstVal, secondVal]);
+        this.chart.g.updateOptions({ 'file': this.chart.chartData });
+        this.chart.options.dateWindow[0] += 500;
+        this.chart.options.dateWindow[1] += 500;
+        this.chart.g.updateOptions({ 'dateWindow': this.chart.options.dateWindow });
+      }
     }, 1000);
 
     this.getData(this.sensor.id, time);
