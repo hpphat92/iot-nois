@@ -24,6 +24,8 @@ export class CreateOrUpdateFarmComponent implements OnInit {
     public users: IMultiSelectOption[];
     private frm: FormGroup;
     private name: AbstractControl;
+    private emails: string[];
+    private email: AbstractControl;
 
     // Default selection
     private selectedUsers: any[];
@@ -54,19 +56,22 @@ export class CreateOrUpdateFarmComponent implements OnInit {
 
     constructor(private _fb: FormBuilder, private activeModal: NgbActiveModal,
         private _farmService: FarmService, ) {
-
+        this.emails = [];
     }
 
     ngOnInit() {
         this.frm = this._fb.group({
             name: ['', Validators.required],
+            email: [''],
         });
 
         this.name = this.frm.controls['name'];
+        this.email = this.frm.controls['email'];
 
         if (this.farm && this.farm.id) {
             this.frm.patchValue(this.farm);
             this.selectedUsers = this.farm.userIds;
+            this.emails = this.farm.emails;
         }
     }
 
@@ -75,7 +80,8 @@ export class CreateOrUpdateFarmComponent implements OnInit {
             let value = this.frm.value;
             let data: any = {
                 ...this.frm.value,
-                userIds: this.selectedUsers
+                userIds: this.selectedUsers,
+                emails: this.emails
             }
 
             if (this.farm && this.farm.id) {
@@ -97,6 +103,17 @@ export class CreateOrUpdateFarmComponent implements OnInit {
         if (this.name.invalid) {
             this.mytab.select('infoTab');
         }
+    }
+
+    private addEmail(): void {
+        if (this.email.value && this.email.valid && !this.emails.includes(this.email.value)) {
+            this.emails.push(this.email.value);
+            this.email.setValue('');
+        }
+    }
+
+    private deleteEmail(index): void {
+        this.emails.splice(index, 1);
     }
 
     closeModal() {

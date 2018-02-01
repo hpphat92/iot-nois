@@ -17,12 +17,32 @@
                                 <label class="nowrap">Name</label>
                             </div>
                             <div class="col-sm-9">
-                                <input class="form-control border-radius-non" type="text" formControlName="name" placeholder="Name">
+                                <input class="form-control border-radius-non row" type="text" formControlName="name" placeholder="Name">
                                 <label class="error m-t-10">
                                     <span *ngIf="name.invalid && (name.dirty || name.touched) && name.errors?.required">
                                         {{'error.name_required' | translate}}
                                     </span>
                                 </label>
+                            </div>
+                        </div>
+                        <div class="row form-group m-b-0 required">
+                            <div class="col-sm-3">
+                                <label class="nowrap">Email Warning</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row" *ngFor="let item of emails; let i = index">
+                                    <p>{{item}}
+                                        <a href="javascript:void(0)" class="m-l-20 txt-red" (click)="deleteEmail(i)">
+                                            <i class="ion-android-close"></i>
+                                        </a>
+                                    </p>
+                                </div>
+                                <div class="row">
+                                    <input class="form-control border-radius-non col-sm-10" type="email" placeholder="email" formControlName="email" pattern="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$">
+                                    <button class="btn btn-info btn-icon btn-sm col-sm-1 m-l-20" type="button" (click)="addEmail()">
+                                        <i class="ion-plus-round"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </ng-template>
@@ -69,24 +89,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <!-- <table *ngIf="farm.sensors.length > 0" class="table" [mfData]="farm.sensors" #mf="mfDataTable" [mfRowsOnPage]="5">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 50%">
-                                                <mfDefaultSorter by="name">Sensor</mfDefaultSorter>
-                                            </th>
-                                            <th style="width: 50%">
-                                                <mfDefaultSorter by="email">Average Value</mfDefaultSorter>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let sensor of mf.data">
-                                            <td>{{sensor.name}}</td>
-                                            <td>{{sensor.argValue}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table> -->
                             </div>
                         </div>
                     </ng-template>

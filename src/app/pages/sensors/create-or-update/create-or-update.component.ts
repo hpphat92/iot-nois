@@ -34,6 +34,11 @@ export class CreateOrUpdateSensorComponent implements OnInit {
   private sensorType: AbstractControl;
   private locationX: AbstractControl;
   private locationY: AbstractControl;
+  private warningInMinute: AbstractControl;
+  private minWarning: AbstractControl;
+  private maxWarning: AbstractControl;
+  private secondMinWarning: AbstractControl;
+  private secondMaxWarning: AbstractControl;
 
   constructor(private _fb: FormBuilder, private activeModal: NgbActiveModal,
     private _areaService: AreaService, private _sensorService: SensorService) {
@@ -50,6 +55,11 @@ export class CreateOrUpdateSensorComponent implements OnInit {
       areaId: [{ value: '', disabled: true }],
       locationX: [{ value: this.initialData.locationX || 0, disabled: true }],
       locationY: [{ value: this.initialData.locationY || 0, disabled: true }],
+      warningInMinute: [''],
+      minWarning: [''],
+      maxWarning: [''],
+      secondMinWarning: [''],
+      secondMaxWarning: [''],
     });
     this.id = this.frm.controls['id'];
     this.name = this.frm.controls['name'];
@@ -58,6 +68,11 @@ export class CreateOrUpdateSensorComponent implements OnInit {
     this.areaId = this.frm.controls['areaId'];
     this.locationX = this.frm.controls['locationX'];
     this.locationY = this.frm.controls['locationY'];
+    this.warningInMinute = this.frm.controls['warningInMinute'];
+    this.minWarning = this.frm.controls['minWarning'];
+    this.maxWarning = this.frm.controls['maxWarning'];
+    this.secondMinWarning = this.frm.controls['secondMinWarning'];
+    this.secondMaxWarning = this.frm.controls['secondMaxWarning'];
 
     if (this.initialData.farmId) {
       this.frm.patchValue(this.initialData);
