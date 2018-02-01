@@ -57,6 +57,52 @@
                             </div>
                         </div>
 
+                        <div class="row form-group m-b-0">
+                            <div class="col-sm-3">
+                                <label class="nowrap">Warning Time</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control border-radius-non" type="number" formControlName="warningInMinute" placeholder="Warning Time in Minute">
+                            </div>
+                        </div>
+
+                        <div class="row form-group m-b-0">
+                            <div class="col-sm-3">
+                                <label class="nowrap" *ngIf="frm.get('sensorType').value == '0'">Temperature Min Warning</label>
+                                <label class="nowrap" *ngIf="frm.get('sensorType').value != '0'">Min Warning</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control border-radius-non" type="number" formControlName="minWarning" placeholder="Temperature Min Warning">
+                            </div>
+                        </div>
+
+                        <div class="row form-group m-b-0">
+                            <div class="col-sm-3">
+                                <label class="nowrap" *ngIf="frm.get('sensorType').value == '0'">Temperature Max Warning</label>
+                                <label class="nowrap" *ngIf="frm.get('sensorType').value != '0'">Max Warning</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control border-radius-non" type="number" formControlName="maxWarning" placeholder="Temperature Max Warning">
+                            </div>
+                        </div>
+
+                        <div class="row form-group m-b-0" *ngIf="frm.get('sensorType').value == '0'">
+                            <div class="col-sm-3">
+                                <label class="nowrap">Humidity Min Warning</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control border-radius-non" type="number" formControlName="secondMinWarning" placeholder="Humidity Min Warning">
+                            </div>
+                        </div>
+
+                        <div class="row form-group m-b-0" *ngIf="frm.get('sensorType').value == '0'">
+                            <div class="col-sm-3">
+                                <label class="nowrap">Humidity Max Warning</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control border-radius-non" type="number" formControlName="secondMaxWarning" placeholder="Humidity Max Warning">
+                            </div>
+                        </div>
                     </ng-template>
                 </ngb-tab>
 
