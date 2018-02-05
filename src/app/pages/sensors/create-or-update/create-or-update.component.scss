@@ -1,0 +1,40 @@
+@import '../../../theme/sass/conf/conf';
+@import '../../../theme/sass/_auth';
+
+.modal-header {
+	color:#fff;
+  padding:9px 15px;
+  border-bottom:1px solid #eee;
+  background-color: #428bca;
+}
+
+.modal-content {
+  border: none;
+}
+
+.modal-footer {
+  padding:9px 15px;
+  border-top: 1px solid #e5e5e5;
+}
+
+:host /deep/ ul.dropdown-menu {
+  width: 100% !important;
+}
+
+:host /deep/ ss-multiselect-dropdown {
+  width: 100%;
+  display: block;
+}
+
+:host /deep/ .btn-outline-secondary{
+  color: #626262;
+}
+
+
+:host /deep/ .dropdown-item {
+  background-color: #fff !important;
+}
+
+:host /deep/ .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  background-color: #F4F7F7;
+}

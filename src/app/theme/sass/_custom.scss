@@ -1,0 +1,95 @@
+
+.m-t-10 {
+  margin-top: 10px;
+}
+
+.m-t-15 {
+  margin-top: 15px;
+}
+
+.m-t-20 {
+  margin-top: 20px;
+}
+
+.m-t-18 {
+    margin-top: 18px;
+  }
+  
+.m-t-40 {
+  margin-top: 40px;
+}
+
+.m-l-5 {
+  margin-left: 5px;
+}
+
+.m-l-8 {
+  margin-left: 7px;
+}
+
+.m-l--20 {
+  margin-left: -20px;
+}
+
+.error {
+    font-size: 12px;
+    display: block;
+    color: #f55753;
+    margin: 0 10
+  }
+  
+  .m-b-10 {
+    margin-bottom: 10
+  }
+
+  .m-b-20 {
+    margin-bottom: 20 !important
+  }
+
+  .form-group label:not(.error) {
+    font-family: Montserrat;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #626262
+  }
+
+  .right {
+    float: right;
+  }
+
+  .center-div {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.textcenter {
+  text-align: center;
+}
+
+.pagination {
+  height: 40px;
+  background: #eceeef;
+}
+
+table thead {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+table thead tr th{
+  font-weight: bold;
+}
+
+.right {
+  float: right;
+}
+
+.btn-36 {
+  height: 36px;
+}
+
+.red-text {
+  color: red;
+}

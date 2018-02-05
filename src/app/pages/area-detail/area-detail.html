@@ -1,0 +1,36 @@
+<div class="col-md-12">
+  <h3 *ngIf="area">{{area.name}} - {{area.farm.name}}</h3>
+</div>
+
+<div class="content">
+  <div id="map" class="map"></div>
+  <div class="chart active">
+    <div class="heading-button">
+      <select class="form-control border-radius-non s-h-36" (change)="onChangeSensorTypeFilter($event.target.value)">
+        <option value="">-- All Sensor Type --</option>
+        <option *ngFor="let c of types" [value]="c.key">{{c.value}}</option>
+      </select>
+      <button class="btn btn-primary" (click)="showModalAddSensor()">Add Sensor</button>
+    </div>
+    <div class="list-sensors">
+      <div class="table-list">
+        <div class="table-row heading">
+          <div class="table-cell">ID</div>
+          <div class="table-cell">Name</div>
+          <div class="table-cell">Type</div>
+          <div class="table-cell">Action</div>
+        </div>
+        <div class="table-row" *ngFor="let item of area?.sensors" [class.hidden]="selectedSensor && !(+selectedSensor == item.sensorType.id)">
+          <div class="table-cell">{{item.id}}</div>
+          <div class="table-cell">{{item.name}}</div>
+          <div class="table-cell">{{item.sensorType?.name}}</div>
+          <div class="table-cell">
+            <button class="btn btn-sm btn-info" (click)="viewChart(item.id)">View Chart</button>
+            <button class="btn btn-sm btn-primary" (click)="showModalEditSensor(item.id)">Edit</button>
+            <button class="btn btn-sm btn-danger" (click)="deleteSensor(item.id)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="col-md-12">
+    <button class="btn btn-primary btn-icon btn-sm" [ngClass]="{'search-group': !isCollapsed}" type="button" (click)="togleSearch()">
+        <i class="ion-search"></i>
+    </button>
+    <button class="btn btn-primary btn-icon btn-sm" type="button" (click)="showModalAddUser()">
+        <i class="ion-plus"></i> Add User
+    </button>
+</div>
+
+<div class="col-md-12">
+    <form [formGroup]="frm" (ngSubmit)="onSubmit()" class="m-b-20 search-form" [ngClass]="{'d-none': isCollapsed}">
+        <div class="row">
+            <div class="col-md-2">
+                <label class="label-control">First Name</label>
+                <input class="form-control border-radius-non" type="text" formControlName="firstName" placeholder="First Name">
+            </div>
+            <div class="col-md-2">
+                <label class="label-control">Last Name</label>
+                <input class="form-control border-radius-non" type="text" formControlName="lastName" placeholder="Last Name">
+            </div>
+            <div class="col-md-2">
+                <label class="label-control">Email</label>
+                <input class="form-control border-radius-non" type="text" formControlName="email" placeholder="Email">
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <label class="col-sm-12 label-control">Sort by</label>
+                </div>
+                <div class="row">
+                    <div class="offset-sm-1 col-sm-5">
+                        <div class="row">
+                            <select class="form-control border-radius-non s-h-36" formControlName="sortBy">
+                                <option *ngFor="let o of sortByList" [ngValue]="o.key">{{o.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="offset-sm-1 col-sm-5">
+                        <div class="row">
+                            <select class="form-control border-radius-non s-h-36" formControlName="ascending">
+                                <option value="true">Ascending</option>
+                                <option value="false">Descending</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="label-control">&nbsp;</label>
+                <button class="btn btn-primary m-t-22" type="submit">
+                    <i class="ion-android-search"></i> Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="!data?.users?.length" class="col-md-12 m-t-20" align="center" class="center">
+    <h1>No data</h1>
+</div>
+
+<div *ngIf="data?.users?.length" class="col-md-12 m-t-20">
+    <table class="table table-bordered table-hover table-condensed" [mfData]="data.users" #mf="mfDataTable" [mfRowsOnPage]="pagingInfo.pageSize">
+        <thead>
+            <tr>
+                <th style="width: 23%">
+                    <mfDefaultSorter by="name">Email</mfDefaultSorter>
+                </th>
+                <th style="width: 23%">
+                    <mfDefaultSorter by="email">First Name</mfDefaultSorter>
+                </th>
+                <th style="width: 23%">
+                    <mfDefaultSorter by="email">Last Name</mfDefaultSorter>
+                </th>
+                <th style="width: 23%">
+                    <mfDefaultSorter by="email">Created Date</mfDefaultSorter>
+                </th>
+                <th style="width: 5%">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of mf.data">
+                <td align="left">{{item.email}}</td>
+                <td>{{item.firstName}}</td>
+                <td>{{item.lastName}}</td>
+                <td>{{item.createdAt | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td align="center">
+                    <a href="javascript:void(0)" (click)="showModalEditUser(item.id)">
+                        <i class="ion-edit"></i>
+                    </a>
+                    <a class="m-l-8" href="javascript:void(0)" (click)="deleteUser(item.id)">
+                        <i class="ion-trash-a"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="data?.users?.length" class="pull-right">
+    <div class="row col-md-12 m-t-20 m-r-15">
+        <ngb-pagination [collectionSize]="data.total" [(page)]="pagingInfo.pageIndex" [pageSize]="pagingInfo.pageSize" [rotate]="true"
+            [ellipses]="false" [boundaryLinks]="true" (pageChange)="refreshData()"></ngb-pagination>
+    </div>
+</div>

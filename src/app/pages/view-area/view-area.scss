@@ -1,0 +1,119 @@
+@media screen and (min-width: 1620px) {
+  .row.shift-up {
+    > * {
+      margin-top: -573px;
+    }
+  }
+}
+
+@media screen and (max-width: 1620px) {
+  .card.feed-panel.large-card {
+    height: 824px;
+  }
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  .content {
+        .close {
+          position: absolute;
+          top: 0;
+          font-size: 18px;
+          right: 1px;
+          padding: 3px 6px;
+          border: 1px solid;
+          border-radius: 0 3px 0 0;
+          cursor: pointer;
+        }
+
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    .map {
+      margin: 20px;
+      flex-grow: 1;
+      min-height: 465px;
+      border: 1px solid rgb(5, 119, 49);
+    }
+    .chart {
+      width: 33%;
+      margin: 20px;
+      position: relative;
+      display: none;
+      flex-direction: column;
+          &.active {
+            display: flex;
+          }
+    }
+    .heading-button {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      select {
+        width: 35%;
+      }
+    }
+
+    .list-sensors {
+      height: 100%;
+      overflow: auto;
+      .table-list {
+        display: table;
+        width: 100%;
+        line-height: 1.5;
+        font-size: 16px;
+        border-collapse: collapse;
+        .table-row {
+          display: table-row;
+          &.hidden {
+            display: none;
+          }
+          &:not(.heading) {
+            line-height: 2.5;
+            font-size: 18px;
+          }
+          &.heading {
+            font-weight: bold;
+            border-bottom: 1px solid #ccc;
+          }
+          .table-cell {
+            display: table-cell;
+            padding-left: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+  }
+}
+
+.user-stats-card {
+  .card-title {
+    padding: 0 0 15px;
+  }
+}
+
+.blurCalendar {
+  height: 475px;
+}
+
+.m-t-20 {
+  margin-top: 20px;
+}
+
+.m-l-20 {
+  margin-left: 20px;
+}
+
+.m-t-5 {
+  margin-top: 5px;
+}
+
+.m-r-5 {
+  margin-right: 5px;
+}

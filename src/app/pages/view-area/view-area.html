@@ -1,0 +1,34 @@
+<div class="col-md-12">
+    <h3 *ngIf="area">{{area.name}} - {{area.farm.name}}</h3>
+    <div class="row form-group">
+        <div class="col-md-2">
+            <select class="form-control border-radius-non s-h-36" (change)="onChange($event.target.value)">
+                <option value="-1">-- All Sensor Type --</option>
+                <option *ngFor="let c of types" [value]="c.key">{{c.value}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div id="map" class="map"></div>
+    <div class="chart" [ngClass]="{'active': chartActived}">
+        <div class="card">
+            <div class="card-title">
+                <div class="chart-title m-t-20 m-l-20">{{selectedSensor?.name}}</div>
+                <div class="chart-legend"></div>
+            </div>
+            <div class="card-body">
+                <ng-container *ngIf="selectedSensor && selectedSensor.sensorType.id == 0">
+                    <temp-humidity-chart [sensor]="selectedSensor"></temp-humidity-chart>
+                </ng-container>
+                <ng-container *ngIf="selectedSensor && selectedSensor.sensorType.id != 0">
+                    <atmospheric-chart [sensor]="selectedSensor"></atmospheric-chart>
+                </ng-container>
+            </div>
+        </div>
+        <div class="close m-r-5 m-t-5" (click)="closeChart()">
+            <i class="fa fa-times"></i>
+        </div>
+    </div>
+</div>

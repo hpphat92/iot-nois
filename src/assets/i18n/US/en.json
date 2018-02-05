@@ -1,0 +1,86 @@
+{
+  "login": {
+    "lblApp": "IoT Service",
+    "copyright": "Copyright © 2018.",
+    "lblTitle": "Sign into IoT account",
+    "lblSignupTitle": "Register an IoT account",
+    "lblLogin": "Email",
+    "username": "Email",
+    "password": "Password",
+    "forgot_password": "Forgot Password?",
+    "passwordReq": "Password is required",
+    "usernameReq": "Email is required",
+    "lblEmail": "Email",
+    "lblSubmit": "Sign in",
+    "lblSignup": "Don't have an account?"
+  },
+  "forgotpassword": {
+    "lblSignin": "Sign in",
+    "lblEmail": "Email",
+    "lblCode": "Code",
+    "lblNewPassword": "New Password",
+    "examEmail": "example@domain.com",
+    "examCode": "12345",
+    "examPassword": "Password",
+    "lblForgot": "Forgot Password",
+    "emailReq": "Email is required",
+    "codeReq": "Code is required",
+    "newPasswordReq": "New password is required",
+    "submitValue": "Submit"
+  },
+  "resetppassword": {
+    "lblReset": "Reset Password",
+    "lblNewPassword": "New Password",
+    "lblConfirmNewPassword": "Confirm Password",
+    "placeHolderNewPass": "New password",
+    "placeHolderConfirmNewPass": "Confirm new password",
+    "lblSigin": "Sig in",
+    "passwordNotMatch": "Confirm password not match",
+    "passwordReq": "Password is required",
+    "submitValue": "Reset"
+  },
+  "general": {
+    "akveo": "Akveo",
+    "home": "Home",
+    "forms": {
+      "option1": "Option 1"
+    },
+    "menu": {
+      "profile": "Profile",
+      "change-password": "Change Password",
+      "dashboard": "Dashboard",
+      "config": "Configuration",
+      "user": "Users",
+      "farm": "Farms",
+      "area": "Areas",
+      "area-detail": "Area Detail",
+      "sensor": "Sensors"
+    },
+    "created_with": "Created with"
+  },
+  "error": {
+    "name_required": "Name is required",
+    "firstname_required": "First Name is required",
+    "lastname_required": "Last Name is required",
+    "farm_required": "Farm is required",
+    "sensor_type_required": "Sensor type is required",
+    "email_required": "Email is required",
+    "email_invalid": "Email is invalid",
+    "phone_invalid": "Phone number is invalid",
+    "verify_code_required": "Verification code is required",
+    "password_required": "Password is required",
+    "new_password_required": "New password is required",
+    "confirm_password_required": "Confirm password is required",
+    "confirm_password_not_macth": "Confirm password does not match",
+    "account_blocked_minutes": "Your account is blocked. Please retry after {nMins} minute(s)",
+    "account_blocked_seconds": "Your account is blocked. Please retry after {nSecs} second(s)",
+    "file_invalid": "Please chooose {accept} file",
+    "sensorid_required": "Sensor id is required"
+  },
+  "modal": {
+    "delete_user": "Are you sure you want to delete this User? This cannot be undone",
+    "delete_farm": "Are you sure you want to delete this Farm? This cannot be undone",
+    "delete_area": "Are you sure you want to delete this Area? This cannot be undone",
+    "delete_sensor": "Are you sure you want to delete this Sensor? This cannot be undone"
+  }
+}

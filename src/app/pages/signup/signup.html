@@ -1,0 +1,50 @@
+<div class="auth-main">
+  <div class="login-wrapper">
+
+    <!-- background image and text -->
+    <div class="bg-pic">
+      <img class="img-background" alt="background" data-src="assets/img/background.jpg" data-src-retina="assets/img/background.jpg" src="assets/img/background.jpg">
+      <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
+        <h2 class="semi-bold text-white" translate>{{'login.lblApp'}}</h2>
+        <p class="small" translate>{{'login.copyright'}}</p>
+      </div>
+    </div>
+
+    <!-- Form login container-->
+    <div class="login-container bg-white">
+      <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
+        <div class="v-align-middle text-center">
+          <img alt="logo" data-src="assets/img/logo.jpg" data-src-retina="assets/img/logo.jpg" height="128" src="assets/img/logo.jpg"
+            width="128">
+        </div>
+        <p class="p-t-35 p-b-15" translate>{{'login.lblSignupTitle'}}</p>
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="p-t-15">
+          <!-- Username design -->
+          <div class="form-group form-group-default" [ngClass]="{'has-error-auth': (!username.valid && username.touched), 'has-success': (username.valid && username.touched)}">
+            <label translate>{{'login.lblLogin'}}</label>
+            <div class="controls">
+              <input [formControl]="username" type="username" class="form-control" translate placeholder="example@domain.com"
+                autofocus autocomplete="off">
+            </div>
+          </div>
+
+          <label class="error" *ngIf="(!username.valid && username.touched)" translate>{{'login.usernameReq'}}</label>
+
+          <!-- Password design -->
+          <div class="form-group form-group-default" [ngClass]="{'has-error-auth': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
+            <label translate>{{'login.password'}}</label>
+            <div class="controls">
+              <input [formControl]="password" type="password" class="form-control" translate placeholder="{{'login.password' | translate}}">
+            </div>
+          </div>
+
+          <label class="error" *ngIf="(!password.valid && password.touched)" translate>{{'login.passwordReq'}}</label>
+          <a href=" #/login" routerlink="/login" translate>{{'forgotpassword.lblSignin'}}</a>
+          <div class="m-t-10 text-center">
+            <button class="btn btn-primary btn-cons" type="submit" [disabled]="!form.valid" translate>Sing Up</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
